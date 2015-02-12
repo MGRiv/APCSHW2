@@ -29,22 +29,27 @@ public class KnightsTour{
     public String toString(){
 	String ans = "\n";
 	//build your knights tour here...
-	return hide + go(0,0) + ans + "\n" + show;
+	return hide + clear + go(0,0) + ans + "\n" + show;
     }
     
     public KnightsTour(int size){
-	if(size > 3){
+	if(size > 0){
 	    board = new int[size][size];
+	    for(int j = 0; j < board.length;j++){
+		for(int i = 0; i < board[0].size;i++){
+		    board[j][i]=0;
+		}
+	    }
+	    solve(0,0,1);
 	}
     }
     
-    
     public void solve(){
-	
+	solve(0,0,1);
     }
     
     public void solve(int startx, int starty){
-	
+	solve(starx,starty,1);
     }
     
     
@@ -52,7 +57,17 @@ public class KnightsTour{
     public boolean solve(int x,int y,int currentMoveNumber){
 	System.out.println(this);
 	wait(20);
-	
+	if(x <= 0 || x >= size || y <= 0 || y >= size){
+	    return false;
+	}
+	if(currentMoveNumber > (board.length * board.length)){
+	    return true;
+	}
+	if(board[x][y] == 0){
+	    board[x][y] = currentMoveNumber;
+	    if(solve(x + 2, y + 1,currentMoveNumber + 1) ||
+	       solve(x + 2, y - 1,currentMoveNumber + 1) ||
+	}
 	return false;
     }
     
