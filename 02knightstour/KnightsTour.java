@@ -13,6 +13,10 @@ public class KnightsTour{
     private int[][]board;
     
     
+    public String name(){
+	return "rivera.michael";
+    }
+
     //terminal specific character to move the cursor
     private String go(int x,int y){
 	return ("\033[" + x + ";" + y + "H");
@@ -28,7 +32,13 @@ public class KnightsTour{
     
     public String toString(){
 	String ans = "\n";
-	//build your knights tour here...
+	for(int i = 0; i < board.length * board.length; i++){
+	    if(i % board.length == 0){
+		ans += "\n";
+	    }
+	    int c = board[i / board.length][i % board.length];
+	    ans += c;
+	}
 	return hide + clear + go(0,0) + ans + "\n" + show;
     }
     
@@ -36,7 +46,7 @@ public class KnightsTour{
 	if(size > 0){
 	    board = new int[size][size];
 	    for(int j = 0; j < board.length;j++){
-		for(int i = 0; i < board[0].size;i++){
+		for(int i = 0; i < board[0].length;i++){
 		    board[j][i]=0;
 		}
 	    }
@@ -49,7 +59,7 @@ public class KnightsTour{
     }
     
     public void solve(int startx, int starty){
-	solve(starx,starty,1);
+	solve(startx,starty,1);
     }
     
     
@@ -57,7 +67,7 @@ public class KnightsTour{
     public boolean solve(int x,int y,int currentMoveNumber){
 	System.out.println(this);
 	wait(20);
-	if(x <= 0 || x >= size || y <= 0 || y >= size){
+	if(x < 0 || x >= board.length || y < 0 || y >= board.length){
 	    return false;
 	}
 	if(currentMoveNumber > (board.length * board.length)){
@@ -67,9 +77,20 @@ public class KnightsTour{
 	    board[x][y] = currentMoveNumber;
 	    if(solve(x + 2, y + 1,currentMoveNumber + 1) ||
 	       solve(x + 2, y - 1,currentMoveNumber + 1) ||
+	       solve(x - 2, y - 1,currentMoveNumber + 1) ||
+	       solve(x - 2, y + 1,currentMoveNumber + 1) ||
+	       solve(x + 1, y - 1,currentMoveNumber + 1) ||
+	       solve(x + 1, y + 2,currentMoveNumber + 1) ||
+	       solve(x - 1, y + 2,currentMoveNumber + 1) ||
+	       solve(x - 1, y - 2,currentMoveNumber + 1)){
+		return true;
+	    }
+	    board[x][y] = 0;
 	}
 	return false;
+    } 
+    public static void main(String[]args){
+	KnightsTour Lance = new KnightsTour(5);
+	System.out.println(Lance.solve());
     }
-    
-    
 }
