@@ -37,7 +37,7 @@ public class KnightsTour{
 		ans += "\n";
 	    }
 	    int c = board[i / board.length][i % board.length];
-	    ans += c;
+	    ans += " " + c;
 	}
 	return hide + clear + go(0,0) + ans + "\n" + show;
     }
@@ -54,19 +54,18 @@ public class KnightsTour{
 	}
     }
     
-    public void solve(){
-	solve(0,0,1);
+    public boolean solve(){
+	return solve(0,0,1);
     }
     
-    public void solve(int startx, int starty){
-	solve(startx,starty,1);
+    public boolean solve(int startx, int starty){
+	return solve(startx,starty,1);
     }
     
     
     
     public boolean solve(int x,int y,int currentMoveNumber){
-	System.out.println(this);
-	wait(20);
+	//System.out.println(this);
 	if(x < 0 || x >= board.length || y < 0 || y >= board.length){
 	    return false;
 	}
@@ -76,11 +75,11 @@ public class KnightsTour{
 	if(board[x][y] == 0){
 	    board[x][y] = currentMoveNumber;
 	    if(solve(x + 2, y + 1,currentMoveNumber + 1) ||
-	       solve(x + 2, y - 1,currentMoveNumber + 1) ||
+	       solve(x + 1, y + 2,currentMoveNumber + 1) ||
 	       solve(x - 2, y - 1,currentMoveNumber + 1) ||
 	       solve(x - 2, y + 1,currentMoveNumber + 1) ||
-	       solve(x + 1, y - 1,currentMoveNumber + 1) ||
-	       solve(x + 1, y + 2,currentMoveNumber + 1) ||
+	       solve(x + 1, y - 2,currentMoveNumber + 1) ||
+	       solve(x + 2, y - 1,currentMoveNumber + 1) ||
 	       solve(x - 1, y + 2,currentMoveNumber + 1) ||
 	       solve(x - 1, y - 2,currentMoveNumber + 1)){
 		return true;
@@ -91,6 +90,10 @@ public class KnightsTour{
     } 
     public static void main(String[]args){
 	KnightsTour Lance = new KnightsTour(5);
-	System.out.println(Lance.solve());
+	if(Lance.solve()){
+	    System.out.println(Lance.toString());
+	}else{
+	    System.out.println("No Solution");
+	}
     }
 }
