@@ -93,13 +93,15 @@ public class KnightsTour{
 	    return false;
 	}
 	return false;
-    } 
+    }
+    /*
     public static void main(String[]args){
-	KnightsTour Lance = new KnightsTour(8);
+	KnightsTour Lance = new KnightsTour(6);
 	if(Lance.solve()){
 	    System.out.println(Lance);
 	}else{
 	    System.out.println("No Solution");
 	}
     }
+    */
 }

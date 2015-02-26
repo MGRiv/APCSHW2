@@ -112,12 +112,14 @@ public class NQueens{
 	}
 	return false;
     }
+    /*
     public static void main(String[]args){
-	NQueens Saherazad =  new NQueens(8);
+	NQueens Saherazad =  new NQueens(6);
 	if(Saherazad.solve()){
 	    System.out.println(Saherazad);
 	}else{
 	    System.out.println("No Solution");
 	}
     }
+    */
 }
