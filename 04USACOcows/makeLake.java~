@@ -1,0 +1,28 @@
+public class makeLake{
+    static int x,y,e,n;
+    static int[][] field;
+
+    public static void main(String[]agrs){
+	try{
+	    File file = new File(agrs[0]);
+	    Scanner q = new Scanner(file); 
+	}catch (FileNotFoundException exception){
+	    System.out.println("No such file found");
+	}
+	String[] inputs = q.nextLine().split(" ");
+	y = inputs[0];
+	x = inputs[1];
+	e = inputs[2];
+	n = inputs[3];
+	field = new int[y][x];
+	for(int i = 0; i < y; i++){
+	    inputs = q.nextLine().split(" ");
+	    for{int j = 0; j < x; j++){
+		board[i][j] = inputs[j];
+	    }
+	}
+	
+    }
+
+
+}
