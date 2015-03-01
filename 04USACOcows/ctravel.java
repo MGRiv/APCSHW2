@@ -10,16 +10,17 @@ public class ctravel{
 	try{
 	    File file = new File(args[0]);
 	    Scanner q = new Scanner(file);
-
+	    
 	    String[] inputs = q.nextLine().split(" ");
 	    y = Integer.parseInt(inputs[0]);
 	    x = Integer.parseInt(inputs[1]);
 	    m = Integer.parseInt(inputs[2]);
 	    field = new String[y][x];
+	    String load = "";
 	    for(int i = 0; i < y; i++){
-		inputs = q.nextLine().split("");
+		load = q.nextLine();
 		for(int j = 0; j < x; j++){
-		    field[i][j] = inputs[j];
+		    field[i][j] = load.substring(j,j+1);
 		}
 	    }
 	    positions = new int[4];
@@ -30,34 +31,35 @@ public class ctravel{
 	}catch (FileNotFoundException exception){
 	    System.out.println("File not found");
 	}
-	System.out.println(solve());
+	solve();
+	System.out.println(c);
     }
-
+    
     public static int solve(){
 	c = 0;
-	return solve(positions[0] - 1,positions[1] - 1, 0);
+	solve(positions[0] - 1,positions[1] - 1, 0);
+	return c;
     }
-    public static int solve(int px, int py, int steps){
+    public static void solve(int px, int py, int steps){
 	if(steps > m){
-	    //System.out.println("b");
-	    return 0;
+	    return;
 	}
 	if(px == positions[2] - 1 && py == positions[3] - 1){
-	    return 1;
+	    c++;
+	    return;
 	}
 	if(px < 0 || px >= x || py < 0 || py >= y){
-	    //System.out.println("a");
-	    return 0;
+	    return;
 	}
 	if(field[py][px].equals("*")){
-	    //System.out.println(Integer.toString(px) + "," +Integer.toString(py));
-	    return 0;
+	    return;
 	}
-
-	c += solve(px + 1, py, steps + 1)
-	    + solve(px, py + 1, steps + 1)
-	    + solve(px - 1, py, steps + 1)
-	    + solve(px, py - 1, steps + 1);
-	return c;
+	if(field[py][px].equals(".")){	    
+	    solve(px + 1, py, steps + 1);
+	    solve(px, py + 1, steps + 1);
+	    solve(px - 1, py, steps + 1);
+	    solve(px, py - 1, steps + 1);
+	}
+	return;
     }
 }
