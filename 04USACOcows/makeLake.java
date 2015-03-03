@@ -36,6 +36,10 @@ public class makeLake{
 
     }
 
+    public static String name(){
+	return "rivera.michael:";
+    }
+
     public static int solve(){
 	for(int i = 0; i < steps.length; i++){
 	    int r = steps[i][0] - 1;
