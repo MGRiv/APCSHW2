@@ -44,18 +44,23 @@ public class ctravel{
 	
     }
     public static String name(){
-	return "rivera.michael:";
+	return "rivera.michael";
     }    
     public static int solve(){
-	return solve(positions[0] - 1,positions[1] - 1, 0);
+	return solve(positions[0] - 1,positions[1] - 1, m);
     }
     public static int solve(int px, int py, int steps){
-	if(steps == m && px == (positions[2] - 1) && py == (positions[3] - 1)){
+	if(steps == 0 && px == (positions[2] - 1) && py == (positions[3] - 1)){
 	    return 1;
 	}
-	if(px < 0 || px >= x || py < 0 || py >= y || field[py][px]=='*' || steps == m){
+	if(px < 0 || px >= x || py < 0 || py >= y || steps <= 0){
+	    //System.out.println("wrong");
 	    return 0;
 	}
-	return solve(px + 1, py, steps + 1) +  solve(px, py + 1, steps + 1) + solve(px - 1, py, steps + 1) + solve(px, py - 1, steps + 1);
+	if(field[py][px] == '*'){
+	    //System.out.println("wrong");
+	    return 0;
+	}
+	return solve(px + 1, py, steps - 1) +  solve(px, py + 1, steps - 1) + solve(px - 1, py, steps - 1) + solve(px, py - 1, steps - 1);
     }
 }

@@ -37,7 +37,7 @@ public class makeLake{
     }
 
     public static String name(){
-	return "rivera.michael:";
+	return "rivera.michael";
     }
 
     public static int solve(){
