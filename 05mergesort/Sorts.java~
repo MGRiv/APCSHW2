@@ -1,5 +1,5 @@
 import java.util.*;
-public class mergeSort{
+public class Sorts{
     
     public static int[] merge(int[] a, int[] b){
 	int[]ans = new int[a.length + b.length];
@@ -26,7 +26,7 @@ public class mergeSort{
 	return ans;
     }
 
-    public static int[] mergesort(int[] q){
+    public static int[] mergesorthelp(int[] q){
 	if(q.length < 2){
 	    return q;
 	}
@@ -34,8 +34,17 @@ public class mergeSort{
 	int[] y = new int[q.length - x.length];
 	System.arraycopy(q,0,x,0,x.length);
 	System.arraycopy(q,x.length,y,0,y.length);
-	return merge(mergesort(x),mergesort(y));
+	return merge(mergesorthelp(x),mergesorthelp(y));
     }
+
+    public static void mergesort(int[]q){
+	int[] p = mergesorthelp(q);
+	for(int i = 0; i < q.length; i++){
+	    q[i] = p[i];
+	}
+    }
+
+
     public static void main(String[]args){
 	int[] q = new int[20];
 	Random r = new Random();
@@ -43,6 +52,7 @@ public class mergeSort{
 	    q[n] = r.nextInt(20);
 	}
 	System.out.println(Arrays.toString(q));
-	System.out.println(Arrays.toString(mergesort(q)));
+	mergesort(q);
+	System.out.println(Arrays.toString(q));
     }
 }

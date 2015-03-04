@@ -26,6 +26,10 @@ public class Sorts{
 	return ans;
     }
 
+    public static String name(){
+	return "rivera.michael";
+    } 
+
     public static int[] mergesorthelp(int[] q){
 	if(q.length < 2){
 	    return q;
