@@ -1,0 +1,50 @@
+import java.util.*;
+public class Sorts{
+    
+    public static int partition(int[] ary, int si, int ei){
+	int[] copy = new int[ary.length];
+	System.arraycopy(ary,0,copy,0,ary.length);
+	Random rand = new Random();
+	int i = rand.nextInt(ei - si) + si;
+	//System.out.println("(" + si + "," + ei +")");
+	//System.out.println(i);
+	//System.out.println(copy[i]);
+	//System.out.println(Arrays.toString(copy));
+	int pivot = copy[i];
+	int s = si;
+	int e = ei;
+	for(int q = s; q <= e; q++){
+	    if(copy[q] != pivot){
+		if(copy[q] > pivot){
+		    ary[ei] = copy[q];
+		    ei--;
+		}else if(copy[q] < pivot){
+		    ary[si] = copy[q];
+		    si++;
+		}
+	    }
+	}
+	for(int q = si; q <= ei; q++){
+	    ary[q] = pivot;
+	}
+	//System.out.println(Arrays.toString(ary));
+	return si;
+    }
+    public static int quickselect(int[] ary, int pos){
+	int q = partition(ary,0,ary.length - 1);
+	return qsh(ary,0,ary.length - 1,q,pos);
+    }
+    public static int qsh(int[] ary, int si, int ei, int cpos, int pos){
+	if(cpos == pos){
+	    return ary[cpos];
+	}else if(cpos > pos){
+	    int q = partition(ary,si,cpos);
+	    return qsh(ary,si,cpos,q,pos);
+	}else{
+	    int q = partition(ary,cpos,ei);
+	    return qsh(ary,cpos,ei,q,pos);
+	}
+    }
+
+
+}
