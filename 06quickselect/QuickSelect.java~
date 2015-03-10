@@ -1,15 +1,15 @@
 import java.util.*;
 public class QuickSelect{
 
-    public int partition(int[] ary, int si, int ei){
+    public static int partition(int[] ary, int si, int ei){
 	int[] copy = new int[ary.length];
 	System.arraycopy(ary,0,copy,0,ary.length);
 	Random rand = new Random();
 	int i = rand.nextInt(ei - si) + si;
-	System.out.println("(" + si + "," + ei +")");
-	System.out.println(i);
-	System.out.println(copy[i]);
-	System.out.println(Arrays.toString(copy));
+	//System.out.println("(" + si + "," + ei +")");
+	//System.out.println(i);
+	//System.out.println(copy[i]);
+	//System.out.println(Arrays.toString(copy));
 	int pivot = copy[i];
 	int s = si;
 	int e = ei;
@@ -26,14 +26,14 @@ public class QuickSelect{
 	}
 	
 	ary[si] = pivot;
-	System.out.println(Arrays.toString(ary));
+	//System.out.println(Arrays.toString(ary));
 	return si;
     }
-    public int quickselect(int[] ary, int pos){
+    public static int quickselect(int[] ary, int pos){
 	int q = partition(ary,0,ary.length - 1);
 	return qsh(ary,0,ary.length - 1,q,pos);
     }
-    public int qsh(int[] ary, int si, int ei, int cpos, int pos){
+    public static int qsh(int[] ary, int si, int ei, int cpos, int pos){
 	if(cpos == pos){
 	    return ary[cpos];
 	}else if(cpos > pos){

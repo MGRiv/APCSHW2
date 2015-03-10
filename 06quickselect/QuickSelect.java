@@ -2,31 +2,29 @@ import java.util.*;
 public class QuickSelect{
 
     public static int partition(int[] ary, int si, int ei){
-	int[] copy = new int[ary.length];
-	System.arraycopy(ary,0,copy,0,ary.length);
 	Random rand = new Random();
 	int i = rand.nextInt(ei - si) + si;
 	//System.out.println("(" + si + "," + ei +")");
 	//System.out.println(i);
-	//System.out.println(copy[i]);
-	//System.out.println(Arrays.toString(copy));
-	int pivot = copy[i];
-	int s = si;
-	int e = ei;
-	for(int q = s; q <= e; q++){
-	    if(copy[q] != pivot){
-		if(copy[q] > pivot){
-		    ary[ei] = copy[q];
-		    ei--;
-		}else{
-		    ary[si] = copy[q];
-		    si++;
-		}
+	//System.out.println(ary[i]);
+	//System.out.println(Arrays.toString(ary));
+	int t = ary[ei];
+	ary[ei] = ary[i];
+	ary[i] = t;	
+	for(int q = si; q <= ei; q++){
+	    if(ary[q] < ary[ei]){
+		t = ary[si];
+		ary[si] = ary[q];
+		ary[q] = t;
+		si++;
 	    }
 	}
-	
-	ary[si] = pivot;
+	t = ary[ei];
+	ary[ei] = ary[si];
+	ary[si] = t;
+
 	//System.out.println(Arrays.toString(ary));
+
 	return si;
     }
     public static int quickselect(int[] ary, int pos){
