@@ -3,7 +3,7 @@ public class LNode{
     private int value;
     private LNode next;
 
-    public int getNext(){
+    public LNode getNext(){
 	return next;
     }
     public int getValue(){
