@@ -9,7 +9,7 @@ public class LNode{
     public int getValue(){
 	return value;
     }
-    public void setNext(int n){
+    public void setNext(LNode n){
 	next = n;
     }
     public void setValue(int n){
