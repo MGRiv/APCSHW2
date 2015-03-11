@@ -1,0 +1,27 @@
+public class LNode{
+
+    private int value;
+    private LNode next;
+
+    public int getNext(){
+	return next.getValue();
+    }
+    public int getValue(){
+	return value;
+    }
+    public void setNext(int n){
+	next.setValue(n);
+    }
+    public void setValue(int n){
+	value = n;
+    }
+    public String toString(){
+	if(value != null){
+	    System.out.print(value);
+	}
+	if(next != null){
+	    next.toString();
+	}
+    }
+
+}
