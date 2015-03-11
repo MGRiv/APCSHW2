@@ -50,13 +50,14 @@ public class Sorts{
 
 
     public static void main(String[]args){
-	int[] q = new int[20];
+	int[] q = new int[1000000];
 	Random r = new Random();
 	for (int n = 0; n < q.length; n++){
-	    q[n] = r.nextInt(20);
+	    q[n] = r.nextInt(100000);
 	}
-	System.out.println(Arrays.toString(q));
+	if(args[0] == 1){
+	arrays.Sort();
+	}
 	mergesort(q);
-	System.out.println(Arrays.toString(q));
     }
 }
