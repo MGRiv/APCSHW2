@@ -6,29 +6,45 @@ public class MyLinkedList{
     public String toString(){
 	current = head;
 	String r = "[";
-	r += head;
-	while(current.getNext() != null){
-	    r += "," + current.getNext();
-	    current = current.getNext();
+	if(head != null){
+	    r += head;
+	    while(current.getNext() != null){
+		r += "," + current.getNext();
+		current = current.getNext();
+	    }
 	}
 	r +="]";
 	return r;
     }
     public int get(int index){
 	current = head;
-	while(index > 0){
-	    index--;
-	    current = current.getNext();
+	if(index > -1 && index < size()){
+	    while(index > 0){
+		index--;
+		try{
+		    current = current.getNext();
+		}catch (NullPointerException e){
+		    System.out.println("Element does not exist");
+		}
+	    }
+	    return current.getValue();
+	}else{
+	    throw new IndexOutOfBoundsException();
 	}
-	return current.getValue();
     }
-    public void set(int index, int v){
+    public int set(int index, int v){
 	current = head;
-	while(index > 0){
-	    index--;
-	    current = current.getNext();
+	if(index > -1 && index < size()){
+	    while(index > 0){
+		index--;
+		current = current.getNext();
+	    }
+	    int r = current.getValue();
+	    current.setValue(v);
+	    return r;
+	}else{
+	    throw new IndexOutOfBoundsException();
 	}
-	current.setValue(v);
     }
     public int remove(int index){
 	current = head;
@@ -52,14 +68,19 @@ public class MyLinkedList{
 	Q.setNext(current.getNext());
 	current.setNext(Q);
     }
-    public void add(int v){
+    public boolean add(int v){
 	current = head;
-	while(current.getNext() != null){
-	    current = current.getNext();
+	if(head != null){
+	    while(current.getNext() != null){
+		current = current.getNext();
+	    }
+	    LNode Q = new LNode();
+	    current.setNext(Q);
+	    Q.setValue(v);
+	}else{
+	    head.setValue(v);
 	}
-	LNode Q = new LNode();
-	current.setNext(Q);
-	Q.setValue(v);	
+	return true;
     }
     public int indexOf(int v){
 	int c = 0;
