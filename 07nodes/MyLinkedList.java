@@ -21,11 +21,7 @@ public class MyLinkedList{
 	if(index > -1 && index < size()){
 	    while(index > 0){
 		index--;
-		try{
-		    current = current.getNext();
-		}catch (NullPointerException e){
-		    System.out.println("Element does not exist");
-		}
+		current = current.getNext();
 	    }
 	    return current.getValue();
 	}else{
