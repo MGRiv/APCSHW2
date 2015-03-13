@@ -2,6 +2,8 @@ public class MyLinkedList{
 
     public LNode current;
     public LNode head;
+    public LNode tail;
+    public int len = 0;
 
     public String toString(){
 	current = head;
@@ -45,12 +47,29 @@ public class MyLinkedList{
     public int remove(int index){
 	current = head;
 	if(index > -1 && index < size()){
+	    if(index == 0){
+		int t = head.getValue();
+		head = head.getNext();
+		return t;
+	    }
 	    while(index > 1){
 		index--;
 		current = current.getNext();
 	    }
 	    int t = current.getValue();
 	    current.setNext(current.getNext().getNext());
+	    len--;
+	    if(len > 0){
+		int i = len - 1;
+		current = head;
+		while(i > 0){
+		    i--;
+		    current = current.getNext();
+		}
+		tail = current;
+	    }else{
+		tail = head;
+	    }
 	    return t;
 	}else{
 	    throw new IndexOutOfBoundsException();
@@ -73,16 +92,16 @@ public class MyLinkedList{
 	}
     }
     public boolean add(int v){
-	current = head;
-	if(head != null){
-	    while(current.getNext() != null){
-		current = current.getNext();
-	    }
-	    LNode Q = new LNode();
-	    current.setNext(Q);
-	    Q.setValue(v);
-	}else{
+	if(head == null){
 	    head.setValue(v);
+	    tail = head;
+	    len++;
+	}else{
+	    LNode o = new LNode();
+	    o.setValue(v);
+	    tail.setNext(o);
+	    tail = o;
+	    len++;
 	}
 	return true;
     }
@@ -105,15 +124,6 @@ public class MyLinkedList{
 	}
     }
     public int size(){
-	current = head;
-	if(head == null){
-	    return 0;
-	}
-	int c = 1;
-	while(current.getNext() != null){
-	    c++;
-	    current = current.getNext();
-	}
-	return c;
+	return len;
     }
 }
