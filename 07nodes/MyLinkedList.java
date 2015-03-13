@@ -44,25 +44,33 @@ public class MyLinkedList{
     }
     public int remove(int index){
 	current = head;
-	while(index > 1){
-	    index--;
-	    current = current.getNext();
+	if(index > -1 && index < size()){
+	    while(index > 1){
+		index--;
+		current = current.getNext();
+	    }
+	    int t = current.getValue();
+	    current.setNext(current.getNext().getNext());
+	    return t;
+	}else{
+	    throw new IndexOutOfBoundsException();
 	}
-	int t = current.getValue();
-	current.setNext(current.getNext().getNext());
-	return t;
     }
 
     public void add(int index, int v){
 	current = head;
-	while(index > 0){
-	    index--;
-	    current = current.getNext();
+	if(index > -1 && index < size()){
+	    while(index > 0){
+		index--;
+		current = current.getNext();
+	    }
+	    LNode Q = new LNode();
+	    Q.setValue(v);
+	    Q.setNext(current.getNext());
+	    current.setNext(Q);
+	}else{
+	    throw new IndexOutOfBoundsException();
 	}
-	LNode Q = new LNode();
-	Q.setValue(v);
-	Q.setNext(current.getNext());
-	current.setNext(Q);
     }
     public boolean add(int v){
 	current = head;
@@ -80,18 +88,27 @@ public class MyLinkedList{
     }
     public int indexOf(int v){
 	int c = 0;
+	boolean found = false;
 	current = head;
 	while(current.getNext() != null){
 	    if(current.getValue() == v){
+		found = true;
 		break;
 	    }else{
 		c++;
 	    }
 	}
-	return c;
+	if(found){
+	    return c;
+	}else{
+	    return -1;
+	}
     }
     public int size(){
 	current = head;
+	if(head == null){
+	    return 0;
+	}
 	int c = 1;
 	while(current.getNext() != null){
 	    c++;
