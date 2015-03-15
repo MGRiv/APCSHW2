@@ -56,7 +56,7 @@ public class MyLinkedList{
 		index--;
 		current = current.getNext();
 	    }
-	    int t = current.getValue();
+	    int t = current.getNext().getValue();
 	    current.setNext(current.getNext().getNext());
 	    len--;
 	    if(len > 0){
@@ -78,15 +78,24 @@ public class MyLinkedList{
 
     public void add(int index, int v){
 	current = head;
-	if(index > -1 && index < size()){
-	    while(index > 0){
-		index--;
-		current = current.getNext();
-	    }
-	    LNode Q = new LNode();
-	    Q.setValue(v);
-	    Q.setNext(current.getNext());
-	    current.setNext(Q);
+	if(index > -1 && index <= size()){
+	    if(index == size() - 1){
+		LNode Q = new LNode();
+		Q.setValue(v);
+		tail.setNext(Q);
+		tail = Q;
+		len++;
+	    }else{
+		while(index > 0){
+		    index--;
+		    current = current.getNext();
+		}
+		LNode Q = new LNode();
+		Q.setValue(v);
+		Q.setNext(current.getNext());
+		current.setNext(Q);
+		len++;
+	    }	    
 	}else{
 	    throw new IndexOutOfBoundsException();
 	}
