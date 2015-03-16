@@ -1,6 +1,11 @@
 import java.util.*;
 public class Sorts{
+
+    public static String name(){
+	return "rivera.michael";
+    }
     
+
     public static int partition(int[] ary, int si, int ei){
 	Random rand = new Random();
 	int i = rand.nextInt(ei - si) + si;

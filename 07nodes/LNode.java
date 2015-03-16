@@ -3,7 +3,7 @@ public class LNode<T>{
     private T value;
     private LNode<T> next;
 
-    public static String name(){
+    public String name(){
 	return "rivera.michael";
     }
 

@@ -1,22 +1,28 @@
-public class LNode{
+public class LNode<T>{
 
-    private int value;
-    private LNode next;
+    private T value;
+    private LNode<T> next;
 
-    public LNode getNext(){
+    public static String name(){
+	return "rivera.michael";
+    }
+
+    public LNode<T> getNext(){
 	return next;
     }
-    public int getValue(){
+    public T getValue(){
 	return value;
     }
-    public void setNext(int n){
+    public void setNext(LNode<T> n){
 	next = n;
     }
-    public void setValue(int n){
+    public void setValue(T n){
 	value = n;
     }
     public String toString(){
 	return "" + getValue();
     }
-
+    public LNode(T v){
+	setValue(v);
+    }
 }
