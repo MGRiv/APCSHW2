@@ -5,7 +5,7 @@ public class MyLinkedList<T>{
     public LNode<T> tail;
     public int len = 0;
 
-    public static String name(){
+    public String name(){
 	return "rivera.michael";
     }
 
@@ -83,13 +83,21 @@ public class MyLinkedList<T>{
     public void add(int index, T v){
 	current = head;
 	if(index > -1 && index <= size()){
-	    if(index == size() - 1){
+	    if(index == 0){
+		LNode<T> Q = new LNode<T>(v);
+		Q.setNext(head);
+		head = Q;
+		len++;
+		//System.out.println("blah");
+	    }else if(index == size()){
 		LNode<T> Q = new LNode<T>(v);
 		tail.setNext(Q);
 		tail = Q;
 		len++;
+		//System.out.println("blag");
 	    }else{
-		while(index > 0){
+		//System.out.println("blat");
+		while(index > 1){
 		    index--;
 		    current = current.getNext();
 		}
@@ -104,7 +112,8 @@ public class MyLinkedList<T>{
     }
     public boolean add(T v){
 	if(head == null){
-	    head.setValue(v);
+	    LNode<T> o = new LNode<T>(v);
+	    head = o;
 	    tail = head;
 	    len++;
 	}else{
@@ -118,6 +127,9 @@ public class MyLinkedList<T>{
     public int indexOf(T v){
 	int c = 0;
 	boolean found = false;
+	if(head == null){
+	    return -1;
+	}
 	current = head;
 	while(current.getNext() != null){
 	    if(current.getValue() == v){
@@ -136,12 +148,24 @@ public class MyLinkedList<T>{
     public int size(){
 	return len;
     }
-    public void main(String[]args){
-	MyLinkedList<T> Y = new MyLinkedList<T>();
+    public static void main(String[]args){
+	MyLinkedList<Integer> Y = new MyLinkedList<Integer>();
 	System.out.println(Y.size());
 	System.out.println(Y.indexOf(3));
 	Y.add(0);
-	Y.add(0,(int)4);
-	Y.add(9,(int)7);
+	System.out.println(Y);
+	Y.add(0,4);
+	System.out.println(Y);
+	Y.add(1,7);
+	System.out.println(Y);
+	Y.add(2,3);
+	System.out.println(Y);
+	Y.add(1,8);
+	System.out.println(Y);
+	Y.remove(0);
+	System.out.println(Y);
+	Y.set(0,6);
+	System.out.println(Y);
+	System.out.println(Y.get(0));
     }
 }
