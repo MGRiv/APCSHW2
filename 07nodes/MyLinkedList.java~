@@ -1,4 +1,25 @@
-public class MyLinkedList<T>{
+public class MyLinkedList<T> implements Iterable<T>{
+
+    public class MLLIterator<T> implements Iterator<T>{
+	public LNode<T> current2;
+	public MLLIterator(LNode<T> c){
+	    current2 = c;
+	}
+	public T next(){
+	    T v = current2.getValue();
+	    current2 = current2.getNext();
+	    return v;
+	}
+	public boolean hasNext(){
+	    return current2.getNext() != null;
+	}
+	public void remove(){
+	    throw new UnsupportedOperationException();
+	}
+    }
+    public Iterator<T> iterator(){
+	return new MyLinkedListIterator<T>(head);
+    }
 
     public LNode<T> current;
     public LNode<T> head;
