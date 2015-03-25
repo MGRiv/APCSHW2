@@ -20,7 +20,11 @@ public class MyDeque<T>{
 	tail = (tail + 1)%storage.length();
     }
     public T removeFirst(){
-
+	if(head == tail && storage[head] == null){
+	    throw new NoSuchElementException();
+	}
+	storage[head] = null;
+	head = (head + 1)%storage.length();
     }
     public T removeLast(){
 
