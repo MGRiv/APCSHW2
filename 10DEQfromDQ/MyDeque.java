@@ -1,63 +1,77 @@
 import java.util.*;
 public class MyDeque<T>{
     
-    T[] storage = new T[100];
-    int head = 0;
-    int tail = 1;
+    public Object[] storage;
+    public int head,size = 0;
+    public int tail = 1;
+    
+    public MyDeque(int s){
+	storage = new Object[s];
+    }
     
     public void addFirst(T value){
-	if(head == tail && storage[head] != null){
+	if(size == storage.length){
 	    resize();
 	}
-	storage[head] = value;
-	head = (head - 1)%storage.length;
+	
+	//System.out.println(" " +(storage.length + head - 1)%storage.length);
+	storage[(storage.length + head) % storage.length] = value;
+	head = (storage.length + (head - 1))%storage.length;
+	//System.out.println("  " + head);
+	size++;
+	
     }
     public void addLast(T value){
-	if(head == tail && storage[head] != null){
+	if(size == storage.length){
 	    resize();
 	}
-	storage[tail] = value;
-	tail = (tail + 1)%storage.length;
+	storage[(storage.length + tail)%storage.length] = value;
+	tail = (storage.length + (tail + 1))%storage.length;
+	size++;
     }
     public T removeFirst(){
-	if(head == tail && storage[head] == null){
+	if(size == 0){
 	    throw new NoSuchElementException();
 	}
-	T temp = storage[head];
-	storage[head] = null;
-	head = (head + 1)%storage.length;
+	//System.out.println(" " +(storage.length + head + 1)%storage.length);
+	//System.out.println("  " + head);
+	T temp = (T)storage[(storage.length + head + 1)%storage.length];
+	storage[(storage.length + head + 1)%storage.length] = null;
+	head = (storage.length + head + 1)%storage.length;
+	size--;
 	return temp;
     }
     public T removeLast(){
-	if(head == tail && storage[head] == null){
+	if(size == 0){
 	    throw new NoSuchElementException();
 	}
-	T temp = storage[tail];
-	storage[tail] = null;
-	head = (tail - 1)%storage.length;
+	T temp = (T)storage[(storage.length + tail - 1)%storage.length];
+	storage[(storage.length + tail - 1)%storage.length] = null;
+	tail = (storage.length + (tail - 1))%storage.length;
+	size--;
 	return temp;
     }
     public T getFirst(){
-	if(storage[head] == null){
+	if(size == 0){
 	    throw new NoSuchElementException();
 	}
-	return storage[head];
+	return (T)storage[(storage.length + head + 1)%storage.length];
     }
     public T getLast(){
-	if(storage[tail] == null){
+	if(size ==0){
 	    throw new NoSuchElementException();
 	}
-	return storage[tail];
+	return (T)storage[(storage.length + tail - 1)%storage.length];
     }
     public void resize(){
-	T[] temp = new T[storage.length * 2];
+	Object[] temp = new Object[storage.length * 2];
 	System.arraycopy(storage,head,temp,0,storage.length - head);
 	System.arraycopy(storage,0,temp,storage.length - head,tail);
 	head = temp.length - 1;
 	tail = storage.length;
     }
     public static void main(String[]args){
-	MyDeque<Integer> g = new MyDeque<Integer>();
+	MyDeque<Integer> g = new MyDeque<Integer>(100);
 	g.addFirst(4);
 	g.addLast(5);
 	g.addFirst(1);
@@ -66,6 +80,9 @@ public class MyDeque<T>{
 	System.out.println(g.getLast());
 	System.out.println(g.removeLast());
 	System.out.println(g.removeFirst());
-
+	System.out.println(g.removeFirst());
+	System.out.println(g.removeLast());
+	//System.out.println(g.removeLast());
+	System.out.println(g.getFirst());
     }
 }
