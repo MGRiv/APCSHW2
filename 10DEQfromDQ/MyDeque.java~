@@ -4,11 +4,23 @@ public class MyDeque<T>{
     public Object[] storage;
     public int head,size = 0;
     public int tail = 1;
+    public boolean shrin = false;
     
     public MyDeque(int s){
 	storage = new Object[s];
     }
+    public MyDeque(int s,boolean yes){
+	storage = new Object[s];
+	shrin = yes;
+    }
     
+    public String toString(){
+	String r = "[ ";
+	for(int i = 0; i < size; i++){
+	    r += storage[(storage.length + head + 1 + i) % storage.length] + " ";
+	}
+	return r + "]";
+    }
     public void addFirst(T value){
 	if(size == storage.length){
 	    resize();
@@ -39,6 +51,9 @@ public class MyDeque<T>{
 	storage[(storage.length + head + 1)%storage.length] = null;
 	head = (storage.length + head + 1)%storage.length;
 	size--;
+	if(size <= storage.length / 4 && shrin){
+	    shrink();
+	}
 	return temp;
     }
     public T removeLast(){
@@ -49,6 +64,9 @@ public class MyDeque<T>{
 	storage[(storage.length + tail - 1)%storage.length] = null;
 	tail = (storage.length + (tail - 1))%storage.length;
 	size--;
+	if(size <= storage.length / 4 && shrin){
+	    shrink();
+	}
 	return temp;
     }
     public T getFirst(){
@@ -69,19 +87,34 @@ public class MyDeque<T>{
 	System.arraycopy(storage,0,temp,storage.length - head,tail);
 	head = temp.length - 1;
 	tail = storage.length;
+	storage = temp;
+    }
+    public void shrink(){
+	Object[] temp = new Object[storage.length / 2];
+	for(int i = 0; i < size; i++){
+	    temp[i] = storage[(storage.length + head + 1 + i) % storage.length];
+	} 
+	head = temp.length - 1;
+	tail = size;
+	storage = temp;
     }
     public static void main(String[]args){
-	MyDeque<Integer> g = new MyDeque<Integer>(100);
+	MyDeque<Integer> g = new MyDeque<Integer>(10, true);
 	g.addFirst(4);
 	g.addLast(5);
 	g.addFirst(1);
 	g.addLast(2);
+	System.out.println(g);
 	System.out.println(g.getFirst());
 	System.out.println(g.getLast());
 	System.out.println(g.removeLast());
+	System.out.println(g);
 	System.out.println(g.removeFirst());
+	System.out.println(g);
 	System.out.println(g.removeFirst());
+	System.out.println(g);
 	System.out.println(g.removeLast());
+	System.out.println(g);
 	//System.out.println(g.removeLast());
 	System.out.println(g.getFirst());
     }

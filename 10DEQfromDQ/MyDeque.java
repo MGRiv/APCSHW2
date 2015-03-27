@@ -83,8 +83,9 @@ public class MyDeque<T>{
     }
     public void resize(){
 	Object[] temp = new Object[storage.length * 2];
-	System.arraycopy(storage,head,temp,0,storage.length - head);
-	System.arraycopy(storage,0,temp,storage.length - head,tail);
+	for(int i = 0; i < size; i++){
+	    temp[i] = storage[(storage.length + head + 1 + i) % storage.length];
+	}
 	head = temp.length - 1;
 	tail = storage.length;
 	storage = temp;
@@ -99,7 +100,7 @@ public class MyDeque<T>{
 	storage = temp;
     }
     public static void main(String[]args){
-	MyDeque<Integer> g = new MyDeque<Integer>(10, true);
+	MyDeque<Integer> g = new MyDeque<Integer>(2, true);
 	g.addFirst(4);
 	g.addLast(5);
 	g.addFirst(1);
