@@ -9,6 +9,11 @@ public class MyDeque<T>{
     public MyDeque(int s){
 	storage = new Object[s];
     }
+
+    public String name(){
+	return "rivera.michael";
+    }
+
     public MyDeque(int s,boolean yes){
 	storage = new Object[s];
 	shrin = yes;
