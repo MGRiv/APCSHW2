@@ -19,9 +19,53 @@ public class Maze{
 	
     }
     
-    public String toString();//do not do the funky character codes
+    public void wait(int millis){
+	try{
+	    Thread.sleep(millis);
+	}catch (InterruptedException e){
+	}
+    }
     
-    public String toString(boolean animate); //do the funky character codes when animate is true
+    public String toString(){
+	String ans = "\n";
+	for(int i = 0; i < board.length * board.length; i++){
+	    if(i % board.length == 0){
+		ans += "\n";
+	    }
+	    int c = board[i / board.length][i % board.length];
+	    if(c<100){
+		ans += " ";
+	    }
+	    if(c<10){
+		ans += " ";
+	    }
+	    ans += c;
+	}
+	return ans;
+    }
+    
+    public String toString(boolean animate){
+	if(animate){
+	    String ans = "\n";
+	    for(int i = 0; i < board.length * board.length; i++){
+		if(i % board.length == 0){
+		    ans += "\n";
+		}
+		int c = board[i / board.length][i % board.length];
+		if(c<100){
+		    ans += " ";
+		}
+		if(c<10){
+		    ans += " ";
+		}
+		ans += c;
+	    }
+	    return hide + clear + go(0,0) + ans + "\n" + show;
+	    
+	}else{
+	    return toString();
+	}
+    }
     
     /**Solve the maze using a frontier in a BFS manner. 
      * When animate is true, print the board at each step of the algorithm.
@@ -40,5 +84,9 @@ public class Maze{
     }
     public boolean solveDFS(){
 	return solveDFS(false);
+    }
+
+    public int[] solutionCoordinates(){
+	
     }
 }
