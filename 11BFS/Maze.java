@@ -4,7 +4,7 @@ public class Maze{
     private static final String hide =  "\033[?25l";
     private static final String show =  "\033[?25h";
     
-    public int[][]board;
+    public char[][]board;
     
     public String name(){
 	return "rivera.michael";
@@ -67,17 +67,39 @@ public class Maze{
 	}
     }
     
-    /**Solve the maze using a frontier in a BFS manner. 
+    /**Solve the maze using a frontier in a BFS manner.
      * When animate is true, print the board at each step of the algorithm.
      * Replace spaces with x's as you traverse the maze. 
      */
-    public boolean solveBFS(boolean animate){    }
+    public boolean solveBFS(boolean animate){
+	return solve(animate,true);
+    }
+    
 
     /**Solve the maze using a frontier in a DFS manner. 
      * When animate is true, print the board at each step of the algorithm.
      * Replace spaces with x's as you traverse the maze. 
      */
-    public boolean solveDFS(boolean animate){    }
+    public boolean solveDFS(boolean animate){ 
+	return solve(animate,false);
+    }
+
+    public boolean solve(boolean animate,boolean bfs){
+	MyDeque<Integer> Frontier = new MyDeque(board.length * board[0].length);
+	for(int i = 0; i < board.length;i++){
+	    for(int j = 0; j < board[0].length;j++){
+		if(toLowerCase(board[i][j]) == 's'){
+		    Frontier.addFirst(j);
+		    Frontier.addLast(i);
+		    break;
+		}
+	    }
+	}
+	if(bfs){
+	    
+	}
+
+    }
     
     public boolean solveBFS(){
 	return solveBFS(false);
