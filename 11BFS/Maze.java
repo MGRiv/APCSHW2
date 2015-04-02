@@ -1,11 +1,14 @@
 import java.util.*;
+import java.io.*;
 public class Maze{
     private static final String clear =  "\033[2J";
     private static final String hide =  "\033[?25l";
     private static final String show =  "\033[?25h";
     
     public char[][]board;
-    
+    public int x,y;
+
+
     public String name(){
 	return "rivera.michael";
     }
@@ -16,7 +19,15 @@ public class Maze{
     
     /** Same constructor as before...*/
     public Maze(String filename){
-	
+	try{
+	    x = 1;
+	    y = 1;
+	    File file = new File(filename);
+	    Scanner q = new Scanner(file);
+	    for(int i = 0; q.hasNext();i++){
+		board[i] = q.nextLine().toCharArray();
+	    }
+	}catch (FileNotFoundException
     }
     
     public void wait(int millis){
@@ -88,7 +99,7 @@ public class Maze{
 	MyDeque<Integer> Frontier = new MyDeque(board.length * board[0].length);
 	for(int i = 0; i < board.length;i++){
 	    for(int j = 0; j < board[0].length;j++){
-		if(toLowerCase(board[i][j]) == 's'){
+		if(board[i][j] == 'S'){
 		    Frontier.addFirst(j);
 		    Frontier.addLast(i);
 		    break;
@@ -98,7 +109,7 @@ public class Maze{
 	if(bfs){
 	    
 	}
-
+	
     }
     
     public boolean solveBFS(){
