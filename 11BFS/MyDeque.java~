@@ -13,9 +13,6 @@ public class MyDeque<T>{
     public String name(){
 	return "rivera.michael";
     }
-    public int getSize(){
-	return size;
-    }
 
     public MyDeque(int s,boolean yes){
 	storage = new Object[s];
