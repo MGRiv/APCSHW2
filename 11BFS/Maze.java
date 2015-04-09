@@ -7,7 +7,7 @@ public class Maze{
     
     public char[][]board;
     public int x,y;
-    public int[] solutionb;
+    public ArrayList<Integer> solutionb;
 
 
     public String name(){
@@ -95,17 +95,16 @@ public class Maze{
     public boolean solveDFS(boolean animate){ 
 	return solve(animate,false);
     }
-
+    
     public boolean solve(boolean animate,boolean bfs){
 	MyDeque<LNode<Integer>> Frontier = new MyDeque(board.length * board[0].length);
 	LNode<Integer> current;
-	int c = 0;
 	for(int i = 0; i < board.length;i++){
 	    for(int j= 0; j < board[0].length;j++){
 		if(board[i][j] == 'S'){
 		    current = new LNode<Integer>();
 		    current.setxy(j,i);
-		    c++;
+		    Frontier.addFirst(current);
 		    break;
 		}
 	    }
@@ -119,24 +118,37 @@ public class Maze{
 	    }
 	    current.getX() = x;
 	    current.getY() = y;
-	    int m = 1;
-	    try{
-		if(board[y][x] == 'E'){
-		    solutionb = new int[c * 2];
-		    while(current.getNext() != null){
-			board[current.getY()][current.getX()] = '@';
-			solutionb[c - m] = current.getX();
-			solution[c - m - 1]; current.getY();
-			m -= 2;
-		    }
+	    if(board[y][x] == 'E'){
+		while(current.getNext() != null){
+		    board[current.getY()][current.getX()] = '@';
+		    solutionb.add(0,current.getY());
+		    solutionb.add(0,current.getX());
 		}
-
-		
-		
+		return true;
 	    }
-	    
-	}	
-    }
+	    if(board[y][x] == ' '){
+		LNode<Integer> up = new LNode<Integer>();
+		up.setxy(x,y + 1);
+		up.setNext(current);
+		LNode<Integer> down = new LNode<Integer>();
+		down.setxy(x,y - 1);
+		down.setNext(current);
+		LNode<Integer> left = new LNode<Integer>();
+		left.setxy(x - 1,y);
+		left.setNext(current);
+		LNode<Integer> right = new LNode<Integer>();
+		right.setxy(x + 1,y);
+		right.setNext(current);
+		Frontier.addLast(up);
+		Frontier.addLast(down);
+		Frontier.addLast(left);
+		Frontier.addLast(right);
+		board[y][x] = '.';
+	    }
+	}
+	return false;
+    }	
+    
     
     public boolean solveBFS(){
 	return solveBFS(false);
@@ -146,6 +158,11 @@ public class Maze{
     }
 
     public int[] solutionCoordinates(){
-	
+	int[] ret = new int[solutionb.size()];
+	for(int i = 0;i < solutionb.size();i++){
+	    ret[i] = solutionb.get(i);
+	}
+	return ret;
     }
+    
 }

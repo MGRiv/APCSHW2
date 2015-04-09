@@ -7,6 +7,7 @@ public class Maze{
     
     public char[][]board;
     public int x,y;
+    public int[] solutionb;
 
 
     public String name(){
@@ -20,14 +21,14 @@ public class Maze{
     /** Same constructor as before...*/
     public Maze(String filename){
 	try{
-	    x = 1;
-	    y = 1;
 	    File file = new File(filename);
 	    Scanner q = new Scanner(file);
-	    for(int i = 0; q.hasNext();i++){
+	    for(int i = 0; q.hasNextLine();i++){
 		board[i] = q.nextLine().toCharArray();
 	    }
-	}catch (FileNotFoundException
+	}catch (FileNotFoundException e){
+	    System.err.println("FileNotFoundException: " + e.getMessage());
+	}
     }
     
     public void wait(int millis){
@@ -96,20 +97,45 @@ public class Maze{
     }
 
     public boolean solve(boolean animate,boolean bfs){
-	MyDeque<Integer> Frontier = new MyDeque(board.length * board[0].length);
+	MyDeque<LNode<Integer>> Frontier = new MyDeque(board.length * board[0].length);
+	LNode<Integer> current;
+	int c = 0;
 	for(int i = 0; i < board.length;i++){
-	    for(int j = 0; j < board[0].length;j++){
+	    for(int j= 0; j < board[0].length;j++){
 		if(board[i][j] == 'S'){
-		    Frontier.addFirst(j);
-		    Frontier.addLast(i);
+		    current = new LNode<Integer>();
+		    current.setxy(j,i);
+		    c++;
 		    break;
 		}
 	    }
 	}
-	if(bfs){
+	x,y = 1;
+	while(Frontier.size() != 0){
+	    if(bfs){
+		current = Frontier.removeFirst();
+	    }else{
+		current = Frontier.removeLast();
+	    }
+	    current.getX() = x;
+	    current.getY() = y;
+	    int m = 1;
+	    try{
+		if(board[y][x] == 'E'){
+		    solutionb = new int[c * 2];
+		    while(current.getNext() != null){
+			board[current.getY()][current.getX()] = '@';
+			solutionb[c - m] = current.getX();
+			solution[c - m - 1]; current.getY();
+			m -= 2;
+		    }
+		}
+
+		
+		
+	    }
 	    
-	}
-	
+	}	
     }
     
     public boolean solveBFS(){
