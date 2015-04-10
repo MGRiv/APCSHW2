@@ -111,6 +111,9 @@ public class Maze{
 	}
 	x,y = 1;
 	while(Frontier.size() != 0){
+	    if(animate){
+		System.out.println(board);
+	    }
 	    if(bfs){
 		current = Frontier.removeFirst();
 	    }else{
