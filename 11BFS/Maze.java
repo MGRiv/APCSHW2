@@ -32,7 +32,7 @@ public class Maze{
 	    board = new char[b.size()][b.get(0).length()];
 	    for(int i = 0; i < b.size(); i++){
 		board[i] = b.get(i).toCharArray();
-		System.out.println(Arrays.toString(board[i]));
+		//System.out.println(Arrays.toString(board[i]));
 	    }
 	}catch (FileNotFoundException e){
 	    System.err.println("FileNotFoundException: " + e.getMessage());
@@ -121,7 +121,7 @@ public class Maze{
 	    //System.out.println(board[y][x]);
 	    if(board[y][x] == 'E'){
 		while(current.getNext() != null){
-		    System.out.println("beep");
+		    //System.out.println("beep");
 		    board[current.getY()][current.getX()] = '@';
 		    solutionb.add(0,current.getY());
 		    solutionb.add(0,current.getX());
@@ -130,12 +130,12 @@ public class Maze{
 			System.out.println(toString(true));
 		    }
 		}
-		System.out.println(toString(false));
+		//System.out.println(toString(false));
 		return true;
 	    }
 	    if(board[y][x] == ' '){
 		addPos(x,y,current);
-		board[y][x] = '.';
+		board[y][x] = 'x';
 	    }/*
 	    if(animate){
 		System.out.println("beep");
