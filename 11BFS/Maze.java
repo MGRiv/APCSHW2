@@ -8,6 +8,7 @@ public class Maze{
     public char[][]board;
     public int x,y;
     public ArrayList<Integer> solutionb = new ArrayList<Integer>();
+    public MyDeque<LNode<Integer>> Frontier;
 
 
     public String name(){
@@ -52,13 +53,14 @@ public class Maze{
 		ans += "\n";
 	    }
 	    char c = board[i / board[0].length][i % board[0].length];
-	    ans += Character.toString(c);
+	    ans += " " + Character.toString(c);
 	}
 	return ans;
     }
     
     public String toString(boolean animate){
 	if(animate){
+	    wait(200);
 	    String ans = "\n";
 	    for(int i = 0; i < board.length * board[0].length; i++){
 		if(i % board[0].length == 0){
@@ -93,7 +95,7 @@ public class Maze{
     }
     
     public boolean solve(boolean animate,boolean bfs){
-	MyDeque<LNode<Integer>> Frontier = new MyDeque<LNode<Integer>>(board.length * board[0].length);
+	Frontier = new MyDeque<LNode<Integer>>(board.length * board[0].length);
 	LNode<Integer> current = new LNode<Integer>(0);
 	for(int i = 0; i < board.length;i++){
 	    for(int j= 0; j < board[0].length;j++){
@@ -104,12 +106,11 @@ public class Maze{
 		}
 	    }
 	}
+	addPos(current.getX(),current.getY(),current);
 	x = 1;
 	y = 1;
 	while(Frontier.getSize() != 0){
-	    if(animate){
-		System.out.println(toString(true));
-	    }
+	    //System.out.println("beep");
 	    if(bfs){
 		current = Frontier.removeFirst();
 	    }else{
@@ -117,11 +118,14 @@ public class Maze{
 	    }
 	    x = current.getX();
 	    y = current.getY();
+	    //System.out.println(board[y][x]);
 	    if(board[y][x] == 'E'){
 		while(current.getNext() != null){
+		    System.out.println("beep");
 		    board[current.getY()][current.getX()] = '@';
 		    solutionb.add(0,current.getY());
 		    solutionb.add(0,current.getX());
+		    current = current.getNext();
 		    if(animate){
 			System.out.println(toString(true));
 		    }
@@ -130,28 +134,35 @@ public class Maze{
 		return true;
 	    }
 	    if(board[y][x] == ' '){
-		LNode<Integer> up = new LNode<Integer>(current.getValue() + 1);
-		up.setxy(x,y + 1);
-		up.setNext(current);
-		LNode<Integer> down = new LNode<Integer>(current.getValue() + 1);
-		down.setxy(x,y - 1);
-		down.setNext(current);
-		LNode<Integer> left = new LNode<Integer>(current.getValue() + 1);
-		left.setxy(x - 1,y);
-		left.setNext(current);
-		LNode<Integer> right = new LNode<Integer>(current.getValue() + 1);
-		right.setxy(x + 1,y);
-		right.setNext(current);
-		Frontier.addLast(up);
-		Frontier.addLast(down);
-		Frontier.addLast(left);
-		Frontier.addLast(right);
+		addPos(x,y,current);
 		board[y][x] = '.';
-	    }
+	    }/*
+	    if(animate){
+		System.out.println("beep");
+		System.out.println(toString(true));
+		}*/
 	}
 	return false;
     }	
     
+    public void addPos(int a, int b, LNode<Integer> next){
+	LNode<Integer> up = new LNode<Integer>(next.getValue() + 1);
+	up.setxy(a,b + 1);
+	up.setNext(next);
+	LNode<Integer> down = new LNode<Integer>(next.getValue() + 1);
+	down.setxy(a,b - 1);
+	down.setNext(next);
+	LNode<Integer> left = new LNode<Integer>(next.getValue() + 1);
+	left.setxy(a - 1,b);
+	left.setNext(next);
+	LNode<Integer> right = new LNode<Integer>(next.getValue() + 1);
+	right.setxy(a + 1,b);
+	right.setNext(next);
+	Frontier.addLast(up);
+	Frontier.addLast(down);
+	Frontier.addLast(left);
+	Frontier.addLast(right);
+    }
     
     public boolean solveBFS(){
 	return solveBFS(false);
@@ -169,7 +180,7 @@ public class Maze{
     }
     public static void main(String[]args){
 	Maze q = new Maze(args[0]);
-	q.solveBFS(true);
+	q.solveDFS(false);
 	System.out.println(Arrays.toString(q.solutionCoordinates()));
     }
     
