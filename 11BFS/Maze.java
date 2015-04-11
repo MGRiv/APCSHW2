@@ -7,7 +7,7 @@ public class Maze{
     
     public char[][]board;
     public int x,y;
-    public ArrayList<Integer> solutionb;
+    public ArrayList<Integer> solutionb = new ArrayList<Integer>();
 
 
     public String name(){
@@ -23,8 +23,15 @@ public class Maze{
 	try{
 	    File file = new File(filename);
 	    Scanner q = new Scanner(file);
-	    for(int i = 0; q.hasNextLine();i++){
-		board[i] = q.nextLine().toCharArray();
+	    ArrayList<String> b = new ArrayList<String>();
+	    while(q.hasNextLine()){
+		b.add(q.nextLine());
+	    }
+	    //System.out.println(b.get(0).length());
+	    board = new char[b.size()][b.get(0).length()];
+	    for(int i = 0; i < b.size(); i++){
+		board[i] = b.get(i).toCharArray();
+		System.out.println(Arrays.toString(board[i]));
 	    }
 	}catch (FileNotFoundException e){
 	    System.err.println("FileNotFoundException: " + e.getMessage());
@@ -40,18 +47,12 @@ public class Maze{
     
     public String toString(){
 	String ans = "\n";
-	for(int i = 0; i < board.length * board.length; i++){
-	    if(i % board.length == 0){
+	for(int i = 0; i < board.length * board[0].length; i++){
+	    if(i % board[0].length == 0){
 		ans += "\n";
 	    }
-	    int c = board[i / board.length][i % board.length];
-	    if(c<100){
-		ans += " ";
-	    }
-	    if(c<10){
-		ans += " ";
-	    }
-	    ans += c;
+	    char c = board[i / board[0].length][i % board[0].length];
+	    ans += Character.toString(c);
 	}
 	return ans;
     }
@@ -59,18 +60,13 @@ public class Maze{
     public String toString(boolean animate){
 	if(animate){
 	    String ans = "\n";
-	    for(int i = 0; i < board.length * board.length; i++){
-		if(i % board.length == 0){
+	    for(int i = 0; i < board.length * board[0].length; i++){
+		if(i % board[0].length == 0){
 		    ans += "\n";
 		}
-		int c = board[i / board.length][i % board.length];
-		if(c<100){
-		    ans += " ";
-		}
-		if(c<10){
-		    ans += " ";
-		}
-		ans += c;
+		//System.out.println(i);
+		char c = board[i / board[0].length][i % board[0].length];
+		ans += " " + Character.toString(c);
 	    }
 	    return hide + clear + go(0,0) + ans + "\n" + show;
 	    
@@ -173,7 +169,7 @@ public class Maze{
     }
     public static void main(String[]args){
 	Maze q = new Maze(args[0]);
-	q.solveBFS(false);
+	q.solveBFS(true);
 	System.out.println(Arrays.toString(q.solutionCoordinates()));
     }
     
