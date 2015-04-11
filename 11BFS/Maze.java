@@ -97,20 +97,20 @@ public class Maze{
     }
     
     public boolean solve(boolean animate,boolean bfs){
-	MyDeque<LNode<Integer>> Frontier = new MyDeque(board.length * board[0].length);
-	LNode<Integer> current;
+	MyDeque<LNode<Integer>> Frontier = new MyDeque<LNode<Integer>>(board.length * board[0].length);
+	LNode<Integer> current = new LNode<Integer>(0);
 	for(int i = 0; i < board.length;i++){
 	    for(int j= 0; j < board[0].length;j++){
 		if(board[i][j] == 'S'){
-		    current = new LNode<Integer>();
 		    current.setxy(j,i);
 		    Frontier.addFirst(current);
 		    break;
 		}
 	    }
 	}
-	x,y = 1;
-	while(Frontier.size() != 0){
+	x = 1;
+	y = 1;
+	while(Frontier.getSize() != 0){
 	    if(animate){
 		System.out.println(toString(true));
 	    }
@@ -119,27 +119,31 @@ public class Maze{
 	    }else{
 		current = Frontier.removeLast();
 	    }
-	    current.getX() = x;
-	    current.getY() = y;
+	    x = current.getX();
+	    y = current.getY();
 	    if(board[y][x] == 'E'){
 		while(current.getNext() != null){
 		    board[current.getY()][current.getX()] = '@';
 		    solutionb.add(0,current.getY());
 		    solutionb.add(0,current.getX());
+		    if(animate){
+			System.out.println(toString(true));
+		    }
 		}
+		System.out.println(toString(false));
 		return true;
 	    }
 	    if(board[y][x] == ' '){
-		LNode<Integer> up = new LNode<Integer>();
+		LNode<Integer> up = new LNode<Integer>(current.getValue() + 1);
 		up.setxy(x,y + 1);
 		up.setNext(current);
-		LNode<Integer> down = new LNode<Integer>();
+		LNode<Integer> down = new LNode<Integer>(current.getValue() + 1);
 		down.setxy(x,y - 1);
 		down.setNext(current);
-		LNode<Integer> left = new LNode<Integer>();
+		LNode<Integer> left = new LNode<Integer>(current.getValue() + 1);
 		left.setxy(x - 1,y);
 		left.setNext(current);
-		LNode<Integer> right = new LNode<Integer>();
+		LNode<Integer> right = new LNode<Integer>(current.getValue() + 1);
 		right.setxy(x + 1,y);
 		right.setNext(current);
 		Frontier.addLast(up);
@@ -166,6 +170,11 @@ public class Maze{
 	    ret[i] = solutionb.get(i);
 	}
 	return ret;
+    }
+    public static void main(String[]args){
+	Maze q = new Maze(args[0]);
+	q.solveBFS(false);
+	System.out.println(Arrays.toString(q.solutionCoordinates()));
     }
     
 }
