@@ -130,7 +130,7 @@ public class Maze{
 			System.out.println(toString(true));
 		    }
 		}
-		//System.out.println(toString(false));
+		System.out.println(toString(false));
 		return true;
 	    }
 	    if(board[y][x] == ' '){
@@ -180,7 +180,7 @@ public class Maze{
     }
     public static void main(String[]args){
 	Maze q = new Maze(args[0]);
-	q.solveDFS(false);
+	q.solveBFS(false);
 	System.out.println(Arrays.toString(q.solutionCoordinates()));
     }
     

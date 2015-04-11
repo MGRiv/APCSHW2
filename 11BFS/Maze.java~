@@ -7,7 +7,8 @@ public class Maze{
     
     public char[][]board;
     public int x,y;
-    public ArrayList<Integer> solutionb;
+    public ArrayList<Integer> solutionb = new ArrayList<Integer>();
+    public MyDeque<LNode<Integer>> Frontier;
 
 
     public String name(){
@@ -23,8 +24,15 @@ public class Maze{
 	try{
 	    File file = new File(filename);
 	    Scanner q = new Scanner(file);
-	    for(int i = 0; q.hasNextLine();i++){
-		board[i] = q.nextLine().toCharArray();
+	    ArrayList<String> b = new ArrayList<String>();
+	    while(q.hasNextLine()){
+		b.add(q.nextLine());
+	    }
+	    //System.out.println(b.get(0).length());
+	    board = new char[b.size()][b.get(0).length()];
+	    for(int i = 0; i < b.size(); i++){
+		board[i] = b.get(i).toCharArray();
+		//System.out.println(Arrays.toString(board[i]));
 	    }
 	}catch (FileNotFoundException e){
 	    System.err.println("FileNotFoundException: " + e.getMessage());
@@ -40,37 +48,27 @@ public class Maze{
     
     public String toString(){
 	String ans = "\n";
-	for(int i = 0; i < board.length * board.length; i++){
-	    if(i % board.length == 0){
+	for(int i = 0; i < board.length * board[0].length; i++){
+	    if(i % board[0].length == 0){
 		ans += "\n";
 	    }
-	    int c = board[i / board.length][i % board.length];
-	    if(c<100){
-		ans += " ";
-	    }
-	    if(c<10){
-		ans += " ";
-	    }
-	    ans += c;
+	    char c = board[i / board[0].length][i % board[0].length];
+	    ans += " " + Character.toString(c);
 	}
 	return ans;
     }
     
     public String toString(boolean animate){
 	if(animate){
+	    wait(200);
 	    String ans = "\n";
-	    for(int i = 0; i < board.length * board.length; i++){
-		if(i % board.length == 0){
+	    for(int i = 0; i < board.length * board[0].length; i++){
+		if(i % board[0].length == 0){
 		    ans += "\n";
 		}
-		int c = board[i / board.length][i % board.length];
-		if(c<100){
-		    ans += " ";
-		}
-		if(c<10){
-		    ans += " ";
-		}
-		ans += c;
+		//System.out.println(i);
+		char c = board[i / board[0].length][i % board[0].length];
+		ans += " " + Character.toString(c);
 	    }
 	    return hide + clear + go(0,0) + ans + "\n" + show;
 	    
@@ -97,61 +95,74 @@ public class Maze{
     }
     
     public boolean solve(boolean animate,boolean bfs){
-	MyDeque<LNode<Integer>> Frontier = new MyDeque(board.length * board[0].length);
-	LNode<Integer> current;
+	Frontier = new MyDeque<LNode<Integer>>(board.length * board[0].length);
+	LNode<Integer> current = new LNode<Integer>(0);
 	for(int i = 0; i < board.length;i++){
 	    for(int j= 0; j < board[0].length;j++){
 		if(board[i][j] == 'S'){
-		    current = new LNode<Integer>();
 		    current.setxy(j,i);
 		    Frontier.addFirst(current);
 		    break;
 		}
 	    }
 	}
-	x,y = 1;
-	while(Frontier.size() != 0){
-	    if(animate){
-		System.out.println(toString(true));
-	    }
+	addPos(current.getX(),current.getY(),current);
+	x = 1;
+	y = 1;
+	while(Frontier.getSize() != 0){
+	    //System.out.println("beep");
 	    if(bfs){
 		current = Frontier.removeFirst();
 	    }else{
 		current = Frontier.removeLast();
 	    }
-	    current.getX() = x;
-	    current.getY() = y;
+	    x = current.getX();
+	    y = current.getY();
+	    //System.out.println(board[y][x]);
 	    if(board[y][x] == 'E'){
 		while(current.getNext() != null){
+		    //System.out.println("beep");
 		    board[current.getY()][current.getX()] = '@';
 		    solutionb.add(0,current.getY());
 		    solutionb.add(0,current.getX());
+		    current = current.getNext();
+		    if(animate){
+			System.out.println(toString(true));
+		    }
 		}
+		System.out.println(toString(false));
 		return true;
 	    }
 	    if(board[y][x] == ' '){
-		LNode<Integer> up = new LNode<Integer>();
-		up.setxy(x,y + 1);
-		up.setNext(current);
-		LNode<Integer> down = new LNode<Integer>();
-		down.setxy(x,y - 1);
-		down.setNext(current);
-		LNode<Integer> left = new LNode<Integer>();
-		left.setxy(x - 1,y);
-		left.setNext(current);
-		LNode<Integer> right = new LNode<Integer>();
-		right.setxy(x + 1,y);
-		right.setNext(current);
-		Frontier.addLast(up);
-		Frontier.addLast(down);
-		Frontier.addLast(left);
-		Frontier.addLast(right);
-		board[y][x] = '.';
-	    }
+		addPos(x,y,current);
+		board[y][x] = 'x';
+	    }/*
+	    if(animate){
+		System.out.println("beep");
+		System.out.println(toString(true));
+		}*/
 	}
 	return false;
     }	
     
+    public void addPos(int a, int b, LNode<Integer> next){
+	LNode<Integer> up = new LNode<Integer>(next.getValue() + 1);
+	up.setxy(a,b + 1);
+	up.setNext(next);
+	LNode<Integer> down = new LNode<Integer>(next.getValue() + 1);
+	down.setxy(a,b - 1);
+	down.setNext(next);
+	LNode<Integer> left = new LNode<Integer>(next.getValue() + 1);
+	left.setxy(a - 1,b);
+	left.setNext(next);
+	LNode<Integer> right = new LNode<Integer>(next.getValue() + 1);
+	right.setxy(a + 1,b);
+	right.setNext(next);
+	Frontier.addLast(up);
+	Frontier.addLast(down);
+	Frontier.addLast(left);
+	Frontier.addLast(right);
+    }
     
     public boolean solveBFS(){
 	return solveBFS(false);
@@ -166,6 +177,11 @@ public class Maze{
 	    ret[i] = solutionb.get(i);
 	}
 	return ret;
+    }
+    public static void main(String[]args){
+	Maze q = new Maze(args[0]);
+	q.solveDFS(false);
+	System.out.println(Arrays.toString(q.solutionCoordinates()));
     }
     
 }
