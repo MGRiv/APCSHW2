@@ -136,11 +136,11 @@ public class Maze{
 	    if(board[y][x] == ' '){
 		addPos(x,y,current);
 		board[y][x] = 'x';
-	    }/*
+	    }
 	    if(animate){
-		System.out.println("beep");
+		//System.out.println("beep");
 		System.out.println(toString(true));
-		}*/
+	    }
 	}
 	return false;
     }	
