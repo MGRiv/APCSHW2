@@ -120,6 +120,7 @@ public class Maze{
 	    y = current.getY();
 	    //System.out.println(board[y][x]);
 	    if(board[y][x] == 'E'){
+		solutionb.clear();
 		while(current.getNext() != null){
 		    //System.out.println("beep");
 		    board[current.getY()][current.getX()] = '@';
