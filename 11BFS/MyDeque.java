@@ -2,12 +2,14 @@ import java.util.*;
 public class MyDeque<T>{
     
     public Object[] storage;
-    public int head,size = 0;
+    public int[] priority;
+    public int head,size,psize = 0;
     public int tail = 1;
     public boolean shrin = false;
     
     public MyDeque(int s){
 	storage = new Object[s];
+	priority = new int[s];
     }
 
     public String name(){
@@ -19,6 +21,7 @@ public class MyDeque<T>{
 
     public MyDeque(int s,boolean yes){
 	storage = new Object[s];
+	priority = new int[s];
 	shrin = yes;
     }
     
@@ -29,11 +32,20 @@ public class MyDeque<T>{
 	}
 	return r + "]";
     }
+    public void add(Object g, int h){
+	if(size == storage.length){
+	    resize();
+	}
+	priority[(priority.length + tail) % priority.length] = h;
+	storage[(storage.length + tail)%storage.length] = g;
+	tail = (storage.length + (tail + 1))%storage.length;
+	psize++;
+	size++;
+    }
     public void addFirst(T value){
 	if(size == storage.length){
 	    resize();
 	}
-	
 	//System.out.println(" " +(storage.length + head - 1)%storage.length);
 	storage[(storage.length + head) % storage.length] = value;
 	head = (storage.length + (head - 1))%storage.length;
@@ -91,20 +103,30 @@ public class MyDeque<T>{
     }
     public void resize(){
 	Object[] temp = new Object[storage.length * 2];
+	int[]tuna = new int[priority.length * 2];
 	for(int i = 0; i < size; i++){
 	    temp[i] = storage[(storage.length + head + 1 + i) % storage.length];
+	}
+	for(int i = 0; i < psize; i++){
+	    tuna[i] = priority[(priority.length + head + 1 + i) % priority.length];
 	}
 	head = temp.length - 1;
 	tail = storage.length;
 	storage = temp;
+	priority = tuna;
     }
     public void shrink(){
 	Object[] temp = new Object[storage.length / 2];
+	int[]tuna = new int[priority.length / 2];
 	for(int i = 0; i < size; i++){
 	    temp[i] = storage[(storage.length + head + 1 + i) % storage.length];
-	} 
+	}
+	for(int i = 0; i < psize; i++){
+	    tuna[i] = priority[(priority.length + head + 1 + i) % priority.length];
+	}
 	head = temp.length - 1;
 	tail = size;
+	priority = tuna;
 	storage = temp;
     }
     public static void main(String[]args){
