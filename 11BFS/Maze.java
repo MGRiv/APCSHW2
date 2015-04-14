@@ -60,18 +60,8 @@ public class Maze{
     
     public String toString(boolean animate){
 	if(animate){
-	    wait(200);
-	    String ans = "\n";
-	    for(int i = 0; i < board.length * board[0].length; i++){
-		if(i % board[0].length == 0){
-		    ans += "\n";
-		}
-		//System.out.println(i);
-		char c = board[i / board[0].length][i % board[0].length];
-		ans += " " + Character.toString(c);
-	    }
-	    return hide + clear + go(0,0) + ans + "\n" + show;
-	    
+	    wait(200)
+	    return hide + clear + go(0,0) + toString() + "\n" + show;
 	}else{
 	    return toString();
 	}
