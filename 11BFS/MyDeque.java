@@ -32,13 +32,29 @@ public class MyDeque<T>{
 	}
 	return r + "]";
     }
+    public void order(Object g, int h){
+	int temp = 0;
+	for(int i = head; i < priority.length + head;i++){
+	    if(h > priority[i % priority.length]){
+		temp = i % priority.length;
+		break;
+	    }
+	}
+	tail = (storage.length + (tail + 1))%storage.length;
+	int j = tail;
+	while(j > temp){
+	    priority[j] = priority[j - 1];
+	    storage[j] = storage[j - 1];
+	    j--;
+	}
+	priority[temp] = h;
+	storage[temp] = g;
+    }
     public void add(Object g, int h){
 	if(size == storage.length){
 	    resize();
 	}
-	priority[(priority.length + tail) % priority.length] = h;
-	storage[(storage.length + tail)%storage.length] = g;
-	tail = (storage.length + (tail + 1))%storage.length;
+	order(g,h);
 	psize++;
 	size++;
     }
@@ -88,6 +104,14 @@ public class MyDeque<T>{
 	    shrink();
 	}
 	return temp;
+    }
+    public T removeSmallest(){
+	priority[(priority.length + head + 1)%priority.length] = 0;
+	return removeFirst();
+    }
+    public T removeLargest(){
+	priority[(priority.length + tail - 1)%priority.length] = 0;
+	return removeLast();
     }
     public T getFirst(){
 	if(size == 0){
