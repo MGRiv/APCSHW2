@@ -32,6 +32,17 @@ public class MyDeque<T>{
 	}
 	return r + "]";
     }
+    public String toString(boolean pike){
+	if(pike){
+	    String r = toString() + "\n" + "[ ";
+	    for(int i = 0; i < psize; i++){
+		r += priority[(priority.length + head + 1 + i) % priority.length] + " ";
+	    }
+	    return r + "]";
+	}else{
+	    return toString();
+	}
+    }
     public void order(Object g, int h){
 	int temp = 0;
 	for(int i = head; i < priority.length + head;i++){
@@ -107,10 +118,12 @@ public class MyDeque<T>{
     }
     public T removeSmallest(){
 	priority[(priority.length + head + 1)%priority.length] = 0;
+	psize--;
 	return removeFirst();
     }
     public T removeLargest(){
 	priority[(priority.length + tail - 1)%priority.length] = 0;
+	psize--;
 	return removeLast();
     }
     public T getFirst(){
@@ -155,22 +168,12 @@ public class MyDeque<T>{
     }
     public static void main(String[]args){
 	MyDeque<Integer> g = new MyDeque<Integer>(2, true);
-	g.addFirst(4);
-	g.addLast(5);
-	g.addFirst(1);
-	g.addLast(2);
-	System.out.println(g);
-	System.out.println(g.getFirst());
-	System.out.println(g.getLast());
-	System.out.println(g.removeLast());
-	System.out.println(g);
-	System.out.println(g.removeFirst());
-	System.out.println(g);
-	System.out.println(g.removeFirst());
-	System.out.println(g);
-	System.out.println(g.removeLast());
-	System.out.println(g);
-	//System.out.println(g.removeLast());
-	System.out.println(g.getFirst());
+	add(6,9);
+	add(3,2);
+	add(7,4);
+	add(0,5);
+	add(1,8);
+	System.out.println(toString(true));
+
     }
 }
