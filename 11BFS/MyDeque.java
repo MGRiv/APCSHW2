@@ -45,7 +45,7 @@ public class MyDeque<T>{
     }
     public void order(Object g, int h){
 	int temp = 0;
-	for(int i = head; i < priority.length + head;i++){
+	for(int i = head + 1; i < priority.length + head;i++){
 	    if(h > priority[i % priority.length]){
 		temp = i % priority.length;
 		break;
@@ -62,7 +62,7 @@ public class MyDeque<T>{
 	storage[temp] = g;
     }
     public void add(Object g, int h){
-	if(size == storage.length){
+	if(size == storage.length && psize == priority.length){
 	    resize();
 	}
 	order(g,h);
@@ -167,13 +167,28 @@ public class MyDeque<T>{
 	storage = temp;
     }
     public static void main(String[]args){
-	MyDeque<Integer> g = new MyDeque<Integer>(2, true);
-	add(6,9);
-	add(3,2);
-	add(7,4);
-	add(0,5);
-	add(1,8);
-	System.out.println(toString(true));
-
+	MyDeque<Integer> g = new MyDeque<Integer>(1, true);
+	g.add(6,9);
+	System.out.println(g.toString(true));
+	g.add(3,2);
+	System.out.println(g.toString(true));
+	g.add(7,4);
+	System.out.println(g.toString(true));
+	g.add(0,5);
+	System.out.println(g.toString(true));
+	g.add(1,8);
+	System.out.println(g.toString(true));
+	/*
+	System.out.println(g.removeLargest());
+	System.out.println(g.toString(true));
+	System.out.println(g.removeSmallest());
+	System.out.println(g.toString(true));
+	System.out.println(g.removeSmallest());
+	System.out.println(g.toString(true));
+	System.out.println(g.removeSmallest());
+	System.out.println(g.toString(true));
+	System.out.println(g.removeSmallest());
+	System.out.println(g.toString(true));
+	*/
     }
 }
