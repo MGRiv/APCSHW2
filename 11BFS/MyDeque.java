@@ -32,6 +32,12 @@ public class MyDeque<T>{
 	}
 	return r + "]";
     }
+    
+    public String debug(){
+	String = "[ ";
+	for(int i
+    }
+
     public String toString(boolean pike){
 	if(pike){
 	    String r = toString() + "\n" + "[ ";
@@ -45,7 +51,7 @@ public class MyDeque<T>{
     }
     public void order(Object g, int h){
 	int temp = 0;
-	for(int i = head + 1; i < priority.length + head;i++){
+	for(int i = head; i < priority.length + head;i++){
 	    if(h > priority[i % priority.length]){
 		temp = i % priority.length;
 		break;
