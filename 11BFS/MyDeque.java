@@ -130,11 +130,11 @@ public class MyDeque<T>{
 	if(size == 0){
 	    throw new NoSuchElementException();
 	}
-	priority[(priority.length + head + 1)%priority.length] = 0;
+	priority[(priority.length + tail)%priority.length] = 0;
 	psize--;
-	T temp = (T)storage[(storage.length + head + 1)%storage.length];
-	storage[(storage.length + head + 1)%storage.length] = null;
-	head = (storage.length + head + 1)%storage.length;
+	T temp = (T)storage[(storage.length + tail)%storage.length];
+	storage[(storage.length + tail)%storage.length] = null;
+	tail = (storage.length + (tail - 1))%storage.length;
 	size--;
 	if(size <= storage.length / 4 && shrin){
 	    shrink(true);
@@ -145,11 +145,11 @@ public class MyDeque<T>{
 	if(size == 0){
 	    throw new NoSuchElementException();
 	}
-	priority[(priority.length + tail)%priority.length] = 0;
+	priority[(priority.length + head)%priority.length] = 0;
 	psize--;
-	T temp = (T)storage[(storage.length + tail)%storage.length];
-	storage[(storage.length + tail - 1)%storage.length] = null;
-	tail = (storage.length + (tail - 1))%storage.length;
+	T temp = (T)storage[(storage.length + head)%storage.length];
+	storage[(storage.length + head)%storage.length] = null;
+	head = (storage.length + head + 1)%storage.length;
 	size--;
 	if(size <= storage.length / 4 && shrin){
 	    shrink(true);
@@ -218,7 +218,7 @@ public class MyDeque<T>{
     }
     public static void main(String[]args){
 	MyDeque<Integer> g = new MyDeque<Integer>(1, true);
-	///*
+	/*
 	g.add(6,9);
 	g.add(3,2);
 	g.add(7,4);
@@ -240,7 +240,7 @@ public class MyDeque<T>{
 	System.out.println(g.removeLargest());
 	System.out.println(g.toString(true));
 	System.out.println(g.debug() + "\n");
-	/*
+	
 	g.addLast(4);
 	g.addFirst(5);
 	g.addFirst(3);
