@@ -105,13 +105,14 @@ public class Maze{
     }
     
     public boolean solve(boolean animate,int mode){
-	Frontier = new MyDeque<LNode<Integer>>(board.length * board[0].length);
+	Frontier = new MyDeque<LNode<Integer>>(1, true);
 	LNode<Integer> current = new LNode<Integer>(0);
 	int[] tug = new int[2];
 	tug = findP('S');
 	current.setxy(tug[0],tug[1]);
 	//Frontier.add(current,0);
 	addPos(current.getX(),current.getY(),current,mode);
+	//System.out.println(Frontier.head + "," + Frontier.tail);
 	while(Frontier.getSize() != 0){
 	    //System.out.println("beep");
 	    if(mode == 0){
@@ -121,8 +122,10 @@ public class Maze{
 	    }else{
 		current = Frontier.removeSmallest();
 	    }
-	    System.out.println(Frontier.toString(true));
-	    System.out.println(Frontier.debug());
+	    
+	    //System.out.println(current);
+	    //System.out.println(Frontier.toString());
+	    //System.out.println(Frontier.debug());
 	    x = current.getX();
 	    y = current.getY();
 	    //System.out.println(board[y][x]);
@@ -178,30 +181,30 @@ public class Maze{
 	    Frontier.add(right,findD(right.getX(),right.getY()) + next.getValue());
 	    
 	}else{
-	    System.out.println(Frontier.head);
-	    System.out.println(Frontier.tail);
-	    System.out.println(Frontier.toString(true));
-	    System.out.println(Frontier.debug());
+	    //System.out.println(Frontier.head);
+	    //System.out.println(Frontier.tail);
+	    //System.out.println(Frontier.toString(true));
+	    //System.out.println(Frontier.debug());
 	    Frontier.add(up,findD(up.getX(),up.getY()));
-	    System.out.println(Frontier.head);
-	    System.out.println(Frontier.tail);
-	    System.out.println(Frontier.toString(true));
-	    System.out.println(Frontier.debug());
+	    //System.out.println(Frontier.head);
+	    //System.out.println(Frontier.tail);
+	    //System.out.println(Frontier.toString(true));
+	    //System.out.println(Frontier.debug());
 	    Frontier.add(down,findD(down.getX(),down.getY()));
-	    System.out.println(Frontier.head);
-	    System.out.println(Frontier.tail);
-	    System.out.println(Frontier.toString(true));
-	    System.out.println(Frontier.debug());
+	    //System.out.println(Frontier.head);
+	    //System.out.println(Frontier.tail);
+	    //System.out.println(Frontier.toString(true));
+	    //System.out.println(Frontier.debug());
 	    Frontier.add(left,findD(left.getX(),left.getY()));
-	    System.out.println(Frontier.head);
-	    System.out.println(Frontier.tail);
-	    System.out.println(Frontier.toString(true));
-	    System.out.println(Frontier.debug());
+	    //System.out.println(Frontier.head);
+	    //System.out.println(Frontier.tail);
+	    //System.out.println(Frontier.toString(true));
+	    //System.out.println(Frontier.debug());
 	    Frontier.add(right,findD(right.getX(),right.getY()));
-	    System.out.println(Frontier.head);
-	    System.out.println(Frontier.tail);
-	    System.out.println(Frontier.toString(true));
-	    System.out.println(Frontier.debug());
+	    //System.out.println(Frontier.head);
+	    //System.out.println(Frontier.tail);
+	    //System.out.println(Frontier.toString(true));
+	    //System.out.println(Frontier.debug());
 	}
     }
 
@@ -239,7 +242,7 @@ public class Maze{
     }
     public static void main(String[]args){
 	Maze q = new Maze(args[0]);
-	q.solveBest(true);
+	q.solveAStar(false);
 	System.out.println(Arrays.toString(q.solutionCoordinates()));
     }
     

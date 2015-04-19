@@ -134,9 +134,11 @@ public class MyDeque<T>{
 	}
 	priority[(priority.length + tail - 1)%priority.length] = 0;
 	psize--;
-	T temp = (T)storage[(storage.length + tail - 1)%storage.length];
-	storage[(storage.length + tail - 1)%storage.length] = null;
-	tail = (storage.length + (tail - 1))%storage.length;
+	//System.out.println((storage.length + tail)%storage.length);
+	//System.out.println((storage.length + tail - 1)%storage.length);
+	T temp = (T)storage[(priority.length + tail - 1)%priority.length];
+	storage[(priority.length + tail - 1)%priority.length] = null;
+	tail = (priority.length + (tail - 1))%priority.length;
 	size--;
 	if(size <= storage.length / 4 && shrin){
 	    shrink(true);
@@ -220,21 +222,21 @@ public class MyDeque<T>{
     }
     public static void main(String[]args){
 	MyDeque<Integer> g = new MyDeque<Integer>(1, true);
-	/*
-	System.out.println(g.toString(true));
-	System.out.println(g.debug() + "\n");
+	///*
+	//System.out.println(g.toString(true));
+	//System.out.println(g.debug() + "\n");
 	g.add(6,9);
-	System.out.println(g.toString(true));
-	System.out.println(g.debug() + "\n");
+	//System.out.println(g.toString(true));
+	//System.out.println(g.debug() + "\n");
 	g.add(3,2);
-	System.out.println(g.toString(true));
-	System.out.println(g.debug() + "\n");
+	//System.out.println(g.toString(true));
+	//System.out.println(g.debug() + "\n");
 	g.add(7,4);
-	System.out.println(g.toString(true));
-	System.out.println(g.debug() + "\n");
+	//System.out.println(g.toString(true));
+	//System.out.println(g.debug() + "\n");
 	g.add(0,5);
-	System.out.println(g.toString(true));
-	System.out.println(g.debug() + "\n");
+	//System.out.println(g.toString(true));
+	//System.out.println(g.debug() + "\n");
 	g.add(1,8);
 	System.out.println(g.toString(true));
 	System.out.println(g.removeLargest());
@@ -252,7 +254,7 @@ public class MyDeque<T>{
 	System.out.println(g.removeLargest());
 	System.out.println(g.toString(true));
 	System.out.println(g.debug() + "\n");
-	*/
+	/*
 	g.addLast(4);
 	g.addFirst(5);
 	g.addFirst(3);
@@ -269,6 +271,6 @@ public class MyDeque<T>{
 	System.out.println(g.toString(false));
 	System.out.println(g.removeFirst());
 	System.out.println(g.toString(false));
-	//*/
+	*/
     }
 }
