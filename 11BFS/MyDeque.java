@@ -60,14 +60,16 @@ public class MyDeque<T>{
 		break;
 	    }
 	}
-	tail = (storage.length + (tail + 1))%storage.length;
+	
 	//System.out.println(tail);
 	int j = tail;
-	while(j > temp){
-	    priority[j] = priority[j - 1];
-	    storage[j] = storage[j - 1];
+	//System.out.println(j);
+	while(j + priority.length % priority.length > temp){
+	    priority[(j + priority.length) % priority.length] = priority[(j - 1 + priority.length) % priority.length];
+	    storage[(j + priority.length) % priority.length] = storage[(j - 1 + priority.length) % priority.length];
 	    j--;
 	}
+	tail = (storage.length + (tail + 1))%storage.length;
 	priority[temp] = h;
 	storage[temp] = g;
     }
@@ -130,10 +132,10 @@ public class MyDeque<T>{
 	if(size == 0){
 	    throw new NoSuchElementException();
 	}
-	priority[(priority.length + tail)%priority.length] = 0;
+	priority[(priority.length + tail - 1)%priority.length] = 0;
 	psize--;
-	T temp = (T)storage[(storage.length + tail)%storage.length];
-	storage[(storage.length + tail)%storage.length] = null;
+	T temp = (T)storage[(storage.length + tail - 1)%storage.length];
+	storage[(storage.length + tail - 1)%storage.length] = null;
 	tail = (storage.length + (tail - 1))%storage.length;
 	size--;
 	if(size <= storage.length / 4 && shrin){
@@ -147,7 +149,7 @@ public class MyDeque<T>{
 	}
 	priority[(priority.length + head)%priority.length] = 0;
 	psize--;
-	T temp = (T)storage[(storage.length + head)%storage.length];
+	T temp = (T)storage[(storage.length + head )%storage.length];
 	storage[(storage.length + head)%storage.length] = null;
 	head = (storage.length + head + 1)%storage.length;
 	size--;
@@ -179,7 +181,7 @@ public class MyDeque<T>{
 		tuna[i] = priority[(priority.length + head + i) % priority.length];
 	    }
 	    head = 0;
-	    tail = size - 1;
+	    tail = size;
 	    storage = temp;
 	    priority = tuna;
 	}else{
@@ -203,7 +205,7 @@ public class MyDeque<T>{
 		tuna[i] = priority[(priority.length + head + i) % priority.length];
 	    }
 	    head = 0;
-	    tail = size - 1;
+	    tail = size;
 	    priority = tuna;
 	    storage = temp;
 	}else{
@@ -219,10 +221,20 @@ public class MyDeque<T>{
     public static void main(String[]args){
 	MyDeque<Integer> g = new MyDeque<Integer>(1, true);
 	/*
+	System.out.println(g.toString(true));
+	System.out.println(g.debug() + "\n");
 	g.add(6,9);
+	System.out.println(g.toString(true));
+	System.out.println(g.debug() + "\n");
 	g.add(3,2);
+	System.out.println(g.toString(true));
+	System.out.println(g.debug() + "\n");
 	g.add(7,4);
+	System.out.println(g.toString(true));
+	System.out.println(g.debug() + "\n");
 	g.add(0,5);
+	System.out.println(g.toString(true));
+	System.out.println(g.debug() + "\n");
 	g.add(1,8);
 	System.out.println(g.toString(true));
 	System.out.println(g.removeLargest());
@@ -240,7 +252,7 @@ public class MyDeque<T>{
 	System.out.println(g.removeLargest());
 	System.out.println(g.toString(true));
 	System.out.println(g.debug() + "\n");
-	
+	*/
 	g.addLast(4);
 	g.addFirst(5);
 	g.addFirst(3);
@@ -257,6 +269,6 @@ public class MyDeque<T>{
 	System.out.println(g.toString(false));
 	System.out.println(g.removeFirst());
 	System.out.println(g.toString(false));
-	*/
+	//*/
     }
 }
