@@ -34,15 +34,18 @@ public class MyDeque<T>{
     }
     
     public String debug(){
-	String = "[ ";
-	for(int i
+	return Arrays.toString(storage) + "\n" + Arrays.toString(priority);
     }
 
     public String toString(boolean pike){
 	if(pike){
-	    String r = toString() + "\n" + "[ ";
+	    String r = "[ ";
+	    for(int i = 0; i < size; i++){
+		r += storage[(storage.length + head + i) % storage.length] + " ";
+	    }
+	    r += "]" + "\n" + "[ ";
 	    for(int i = 0; i < psize; i++){
-		r += priority[(priority.length + head + 1 + i) % priority.length] + " ";
+		r += priority[(priority.length + head + i) % priority.length] + " ";
 	    }
 	    return r + "]";
 	}else{
@@ -51,13 +54,14 @@ public class MyDeque<T>{
     }
     public void order(Object g, int h){
 	int temp = 0;
-	for(int i = head; i < priority.length + head;i++){
-	    if(h > priority[i % priority.length]){
+	for(int i = 0; i < priority.length;i++){
+	    if(h > priority[i + priority.length % priority.length]){
 		temp = i % priority.length;
 		break;
 	    }
 	}
 	tail = (storage.length + (tail + 1))%storage.length;
+	//System.out.println(tail);
 	int j = tail;
 	while(j > temp){
 	    priority[j] = priority[j - 1];
@@ -69,7 +73,7 @@ public class MyDeque<T>{
     }
     public void add(Object g, int h){
 	if(size == storage.length && psize == priority.length){
-	    resize();
+	    resize(true);
 	}
 	order(g,h);
 	psize++;
@@ -77,7 +81,7 @@ public class MyDeque<T>{
     }
     public void addFirst(T value){
 	if(size == storage.length){
-	    resize();
+	    resize(false);
 	}
 	//System.out.println(" " +(storage.length + head - 1)%storage.length);
 	storage[(storage.length + head) % storage.length] = value;
@@ -88,7 +92,7 @@ public class MyDeque<T>{
     }
     public void addLast(T value){
 	if(size == storage.length){
-	    resize();
+	    resize(false);
 	}
 	storage[(storage.length + tail)%storage.length] = value;
 	tail = (storage.length + (tail + 1))%storage.length;
@@ -105,7 +109,7 @@ public class MyDeque<T>{
 	head = (storage.length + head + 1)%storage.length;
 	size--;
 	if(size <= storage.length / 4 && shrin){
-	    shrink();
+	    shrink(false);
 	}
 	return temp;
     }
@@ -118,19 +122,39 @@ public class MyDeque<T>{
 	tail = (storage.length + (tail - 1))%storage.length;
 	size--;
 	if(size <= storage.length / 4 && shrin){
-	    shrink();
+	    shrink(false);
 	}
 	return temp;
     }
     public T removeSmallest(){
+	if(size == 0){
+	    throw new NoSuchElementException();
+	}
 	priority[(priority.length + head + 1)%priority.length] = 0;
 	psize--;
-	return removeFirst();
+	T temp = (T)storage[(storage.length + head + 1)%storage.length];
+	storage[(storage.length + head + 1)%storage.length] = null;
+	head = (storage.length + head + 1)%storage.length;
+	size--;
+	if(size <= storage.length / 4 && shrin){
+	    shrink(true);
+	}
+	return temp;
     }
     public T removeLargest(){
-	priority[(priority.length + tail - 1)%priority.length] = 0;
+	if(size == 0){
+	    throw new NoSuchElementException();
+	}
+	priority[(priority.length + tail)%priority.length] = 0;
 	psize--;
-	return removeLast();
+	T temp = (T)storage[(storage.length + tail)%storage.length];
+	storage[(storage.length + tail - 1)%storage.length] = null;
+	tail = (storage.length + (tail - 1))%storage.length;
+	size--;
+	if(size <= storage.length / 4 && shrin){
+	    shrink(true);
+	}
+	return temp;
     }
     public T getFirst(){
 	if(size == 0){
@@ -144,57 +168,95 @@ public class MyDeque<T>{
 	}
 	return (T)storage[(storage.length + tail - 1)%storage.length];
     }
-    public void resize(){
-	Object[] temp = new Object[storage.length * 2];
-	int[]tuna = new int[priority.length * 2];
-	for(int i = 0; i < size; i++){
-	    temp[i] = storage[(storage.length + head + 1 + i) % storage.length];
+    public void resize(boolean a){
+	if(a){
+	    Object[] temp = new Object[storage.length * 2];
+	    int[]tuna = new int[priority.length * 2];
+	    for(int i = 0; i < size; i++){
+		temp[i] = storage[(storage.length + head + i) % storage.length];
+	    }
+	    for(int i = 0; i < psize; i++){
+		tuna[i] = priority[(priority.length + head + i) % priority.length];
+	    }
+	    head = 0;
+	    tail = size - 1;
+	    storage = temp;
+	    priority = tuna;
+	}else{
+	    Object[] temp = new Object[storage.length * 2];
+	    for(int i = 0; i < size; i++){
+		temp[i] = storage[(storage.length + head + 1 + i) % storage.length];
+	    }
+	    head = temp.length - 1;
+	    tail = storage.length;
+	    storage = temp;
 	}
-	for(int i = 0; i < psize; i++){
-	    tuna[i] = priority[(priority.length + head + 1 + i) % priority.length];
-	}
-	head = temp.length - 1;
-	tail = storage.length;
-	storage = temp;
-	priority = tuna;
     }
-    public void shrink(){
-	Object[] temp = new Object[storage.length / 2];
-	int[]tuna = new int[priority.length / 2];
-	for(int i = 0; i < size; i++){
-	    temp[i] = storage[(storage.length + head + 1 + i) % storage.length];
+    public void shrink(boolean a){
+	if(a){
+	    Object[] temp = new Object[storage.length / 2];   
+	    int[]tuna = new int[priority.length / 2];
+	    for(int i = 0; i < size; i++){
+		temp[i] = storage[(storage.length + head + i) % storage.length];
+	    }
+	    for(int i = 0; i < psize; i++){
+		tuna[i] = priority[(priority.length + head + i) % priority.length];
+	    }
+	    head = 0;
+	    tail = size - 1;
+	    priority = tuna;
+	    storage = temp;
+	}else{
+	    Object[] temp = new Object[storage.length / 2];
+	    for(int i = 0; i < size; i++){
+		temp[i] = storage[(storage.length + head + 1 + i) % storage.length];
+	    }
+	    head = temp.length - 1;
+	    tail = size;
+	    storage = temp;
 	}
-	for(int i = 0; i < psize; i++){
-	    tuna[i] = priority[(priority.length + head + 1 + i) % priority.length];
-	}
-	head = temp.length - 1;
-	tail = size;
-	priority = tuna;
-	storage = temp;
     }
     public static void main(String[]args){
 	MyDeque<Integer> g = new MyDeque<Integer>(1, true);
+	///*
 	g.add(6,9);
-	System.out.println(g.toString(true));
 	g.add(3,2);
-	System.out.println(g.toString(true));
 	g.add(7,4);
-	System.out.println(g.toString(true));
 	g.add(0,5);
-	System.out.println(g.toString(true));
 	g.add(1,8);
 	System.out.println(g.toString(true));
-	/*
 	System.out.println(g.removeLargest());
 	System.out.println(g.toString(true));
+	System.out.println(g.debug() + "\n");
 	System.out.println(g.removeSmallest());
 	System.out.println(g.toString(true));
+	System.out.println(g.debug() + "\n");
 	System.out.println(g.removeSmallest());
 	System.out.println(g.toString(true));
-	System.out.println(g.removeSmallest());
+	System.out.println(g.debug() + "\n");
+	System.out.println(g.removeLargest());
 	System.out.println(g.toString(true));
-	System.out.println(g.removeSmallest());
+	System.out.println(g.debug() + "\n");
+	System.out.println(g.removeLargest());
 	System.out.println(g.toString(true));
+	System.out.println(g.debug() + "\n");
+	/*
+	g.addLast(4);
+	g.addFirst(5);
+	g.addFirst(3);
+	g.addLast(2);
+	g.addFirst(1);
+	System.out.println(g.toString(false));
+	System.out.println(g.removeLast());
+	System.out.println(g.toString(false));
+	System.out.println(g.removeFirst());
+	System.out.println(g.toString(false));
+	System.out.println(g.removeFirst());
+	System.out.println(g.toString(false));
+	System.out.println(g.removeLast());
+	System.out.println(g.toString(false));
+	System.out.println(g.removeFirst());
+	System.out.println(g.toString(false));
 	*/
     }
 }
