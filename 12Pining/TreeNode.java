@@ -18,14 +18,16 @@ public class TreeNode<E>{
 	return value;
     }
     public boolean setChild(TreeNode<E> v){
-	if(child1.getValue() == null && child2.getValue() == null){
-	    return false;
-	}
-	if(child1.getValue() == null){
+	if(child1.getValue() != null && child2.getValue() != null){
+	    if(Math.random() > 0.5){
+		return child1.setChild(v) || child2.setChild(v);
+	    }else{
+		return child2.setChild(v) || child1.setChild(v);
+	    }
+	}else if(child1.getValue() == null){
 	    child1 = v;
 	    return true;
-	}
-	if(child2.getValue() == null){
+	}else{
 	    child2 = v;
 	    return true;
 	}
