@@ -9,15 +9,9 @@ public class BTree<E> {
     
 
     private TreeNode<E> root;
-    private Random r;
 
     public BTree() {
 	root = null;
-	r = new Random();
-    }
-    public BTree(int s){
-	root = null;
-	r = new Random(s);
     }
 
     /*======== public void add() ==========
@@ -43,25 +37,7 @@ public class BTree<E> {
       added to randomly.
       ====================*/
     private void add( TreeNode<E> curr, TreeNode<E> bn ) {
-	if(curr == null){
-	    curr = bn;
-	}else if(!curr.hasLeft() && !curr.hasRight()){
-	    if(r.nextInt(2) == 0){
-		curr.setLeft(bn);
-	    }else{
-		curr.setRight(bn);
-	    }
-	}else if(!curr.hasLeft()){
-	    curr.setLeft(bn);
-	}else if(!curr.hasRight()){
-	    curr.setRight(bn);
-	}else{
-	    if(getHeight(curr.getRight()) > getHeight(curr.getLeft())){
-		add(curr.getLeft(),bn);
-	    }else{
-		add(curr.getRight(),bn);
-	    }
-	}
+	curr.setChild(bn);
     }
     
     public void traverse( int mode) {
@@ -82,13 +58,7 @@ public class BTree<E> {
       pre-order Traversal
       ====================*/
     public void preOrder( TreeNode<E> curr ) {
-	System.out.print(curr + " ");
-	if(curr.hasLeft()){
-	    preOrder(curr.getLeft());
-	}
-	if(curr.hasRight()){
-	    preOrder(curr.getRight());
-	}
+	String ret = ""
     }
 
 
