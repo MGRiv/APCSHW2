@@ -2,7 +2,7 @@ import java.util.*;
 import java.io.*;
 public class TreeNode<E>{
     public E value;
-    public TreeNode<E> child1,child2;
+    public TreeNode<E> left,right;
     
     public TreeNode(){
 	value = null;
@@ -10,33 +10,37 @@ public class TreeNode<E>{
     public TreeNode(E t){
 	value = t;
     }
-    
+    public TreeNode(E t, TreeNode<E> l,TreeNode<E> r){
+	this(t);
+	left = l;
+	right = r;
+    }
+
+    public void setLeft(TreeNode<E> leaf){
+	left = leaf;
+    }
+    public TreeNode<E> getLeft(){
+	return left;
+    }
+    public void setRight(TreeNode<E> leaf){
+	right = leaf;
+    }
+    public TreeNode<E>(){
+	return right;
+    }
     public void setValue(E v){
 	value = v;
     }
     public E getValue(){
 	return value;
     }
-    public boolean setChild(TreeNode<E> v){
-	if(child1.getValue() != null && child2.getValue() != null){
-	    if(Math.random() > 0.5){
-		return child1.setChild(v) || child2.setChild(v);
-	    }else{
-		return child2.setChild(v) || child1.setChild(v);
-	    }
-	}else if(child1.getValue() == null){
-	    child1 = v;
-	    return true;
-	}else{
-	    child2 = v;
-	    return true;
-	}
-	return false;	
+    public boolean hasLeft(){
+	return left != null;
     }
-    public TreeNode<E>[] getChildren(){
-	TreeNode<E>[] q = new TreeNode<E>[2];
-	q[1] = child1;
-	q[2] = child2;
-	return q;
+    public boolean hasRight(){
+	return right != null;
+    }
+    public String toString(){
+	return getValue().toString();
     }
 }
