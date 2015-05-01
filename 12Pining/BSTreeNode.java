@@ -46,6 +46,6 @@ public class BSTreeNode<T extends Comparable> {
 	if(thing == null){
 	    throw new NullPointerException();
 	}
-	return this.getData() - thing.getData();
+	return this.getData().compareTo(thing.getData());
     }
 }
