@@ -42,10 +42,20 @@ public class BSTreeNode<T extends Comparable> {
 	right = r;
     }
 
+    //other
+    public boolean hasLeft(){
+	return left != null;
+    }
+    public boolean hasRight(){
+	return right != null;
+    }
     public int compareTo(T thing){
 	if(thing == null){
 	    throw new NullPointerException();
 	}
-	return this.getData().compareTo(thing.getData());
+	return data.compareTo(thing);
+    }
+    public String toString(){
+	return data.toString();
     }
 }
