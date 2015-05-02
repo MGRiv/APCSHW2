@@ -44,4 +44,7 @@ public class TreeNode<E>{
     public String toString(){
 	return value.toString();
     }
+    public String name(){
+	return "rivera.michael";
+    }
 }

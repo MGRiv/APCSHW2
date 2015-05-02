@@ -2,7 +2,8 @@ import java.util.*;
 import java.io.*;
 public class TreeNode<E>{
     public E value;
-    public TreeNode<E> left,right;
+    public TreeNode<E> left;
+    public TreeNode<E> right;
     
     public TreeNode(){
 	value = null;
@@ -25,7 +26,7 @@ public class TreeNode<E>{
     public void setRight(TreeNode<E> leaf){
 	right = leaf;
     }
-    public TreeNode<E>(){
+    public TreeNode<E> getRight(){
 	return right;
     }
     public void setValue(E v){
@@ -41,6 +42,6 @@ public class TreeNode<E>{
 	return right != null;
     }
     public String toString(){
-	return getValue().toString();
+	return value.toString();
     }
 }
