@@ -3,7 +3,7 @@ import java.util.*;
 public class MyHeap{
 
     private int[] Heapy;
-    private boolena type;
+    private boolean type;
     
     public MyHeap(){
 	Heapy = new int[2];
@@ -31,11 +31,16 @@ public class MyHeap{
     }
     
     public int remove(){
-	int ret = Heapy[1];
-	Heapy[1] = Heapy[Heapy[0]];
-	Heapy[Heapy[0]] = null;
-	pushdown(1);
-	return ret;
+	if(Heapy[0] == 0){
+	    int ret = Heapy[1];
+	    Heapy[1] = Heapy[Heapy[0]];
+	    Heapy[Heapy[0]] = null;
+	    pushdown(1);
+	    Heapy[0] = Heapy[0] - 1;
+	    return ret;
+	}else{
+	    throw new NoSuchElementException();
+	}
     }
 
     public void pushdown(int index){
@@ -110,6 +115,14 @@ public class MyHeap{
 	}
     }
     
+    public int peek(){
+	if(Heapy[0] > 0){
+	    return Heapy[1];
+	}else{
+	    throw new NoSuchElementException();
+	}
+    }
+
     public void resize(){
 	int[] temp  = int[(Heapy.length - 1) * 2 + 1];
 	for(int v = 0; v < Heapy.length; v++){
