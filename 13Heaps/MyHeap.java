@@ -16,15 +16,19 @@ public class MyHeap{
     }
 
     public String toString(){
+	double other = Math.log(Heapy[0] + 1) / Math.log(2);
 	String ret = "";
 	int i = 1;
 	double n = 1.0;
-	for(int c = 1; c < Heapy[0]; c++){
+	for(int c = 1; c <= other; c++){
+	    for(int p = i;p < other;p++){
+		ret += " ";
+	    }
 	    ret += Heapy[c] + " ";
 	    if(i == c){
-		i += (int)Math.pow(2.0,n);
-		n += 1.0;
-		ret += "\n";
+	    	i += (int)Math.pow(2.0,n);
+	    	n += 1.0;
+	    	ret += "\n";
 	    }
 	}
 	return ret;
