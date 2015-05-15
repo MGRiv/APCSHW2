@@ -3,7 +3,7 @@ import java.util.*;
 public class MyHeap{
 
     private int[] Heapy;
-    private boolena type;
+    private boolean type;
     
     public MyHeap(){
 	Heapy = new int[2];
@@ -16,26 +16,35 @@ public class MyHeap{
     }
 
     public String toString(){
+	double other = Math.log(Heapy[0] + 1) / Math.log(2);
 	String ret = "";
 	int i = 1;
 	double n = 1.0;
-	for(int c = 1; c < Heapy[0]; c++){
+	for(int c = 1; c <= other; c++){
+	    for(int p = i;p < other;p++){
+		ret += " ";
+	    }
 	    ret += Heapy[c] + " ";
 	    if(i == c){
-		i += (int)Math.pow(2.0,n);
-		n += 1.0;
-		ret += "\n";
+	    	i += (int)Math.pow(2.0,n);
+	    	n += 1.0;
+	    	ret += "\n";
 	    }
 	}
 	return ret;
     }
     
     public int remove(){
-	int ret = Heapy[1];
-	Heapy[1] = Heapy[Heapy[0]];
-	Heapy[Heapy[0]] = null;
-	pushdown(1);
-	return ret;
+	if(Heapy[0] == 0){
+	    int ret = Heapy[1];
+	    Heapy[1] = Heapy[Heapy[0]];
+	    Heapy[Heapy[0]] = null;
+	    pushdown(1);
+	    Heapy[0] = Heapy[0] - 1;
+	    return ret;
+	}else{
+	    throw new NoSuchElementException();
+	}
     }
 
     public void pushdown(int index){
@@ -110,6 +119,14 @@ public class MyHeap{
 	}
     }
     
+    public int peek(){
+	if(Heapy[0] > 0){
+	    return Heapy[1];
+	}else{
+	    throw new NoSuchElementException();
+	}
+    }
+
     public void resize(){
 	int[] temp  = int[(Heapy.length - 1) * 2 + 1];
 	for(int v = 0; v < Heapy.length; v++){
