@@ -5,6 +5,10 @@ public class MyHeap{
     private int[] Heapy;
     private boolean type;
     
+    public String name(){
+	return "rivera.michael";
+    }
+
     public MyHeap(){
 	Heapy = new int[2];
 	Heapy[0] = 0;
