@@ -16,25 +16,29 @@ public class MyHeap{
     }
 
     public String toString(){
+	int other = (int)(Math.log(Heapy[0] + 1) / Math.log(2)) + 1;
 	String ret = "";
 	int i = 1;
 	double n = 1.0;
-	for(int c = 1; c < Heapy[0]; c++){
+	for(int c = 1; c <= Heapy[0]; c++){
+	    if((int)Math.pow(2.0,(double)other) % c == 0 || c == 1){
+		for(int p = i;p < other;p++){
+		    ret += "  ";
+		}
+		i++;
+	    }
 	    ret += Heapy[c] + " ";
-	    if(i == c){
-		i += (int)Math.pow(2.0,n);
-		n += 1.0;
-		ret += "\n";
+	    if((int)Math.pow(2.0,(double)other) % (c + 1) == 0){
+		ret +="\n";
 	    }
 	}
 	return ret;
     }
     
     public int remove(){
-	if(Heapy[0] == 0){
+	if(Heapy[0] != 0){
 	    int ret = Heapy[1];
 	    Heapy[1] = Heapy[Heapy[0]];
-	    Heapy[Heapy[0]] = null;
 	    pushdown(1);
 	    Heapy[0] = Heapy[0] - 1;
 	    return ret;
@@ -45,6 +49,9 @@ public class MyHeap{
 
     public void pushdown(int index){
 	int k = index;
+	if((2 * k) >= Heapy.length || (2 * k) + 1 >= Heapy.length){
+	    return;
+	}
 	if(type){
 	    if(Heapy[k] < Heapy[(2 * k) + 1] && Heapy[(2 * k) + 1] > Heapy[2 * k]){
 		int temp = Heapy[k];
@@ -73,26 +80,19 @@ public class MyHeap{
     }
 
     public void add(int q){
-	int index;
-	if(Heapy.length == Heapy[0] + 1){
+	if(Heapy.length <= Heapy[0] + 1){
 	    resize();
-	    Heapy[Heapy[0] + 1] = q;
-	    index = Heapy[0] + 1;
-	    Heapy[0] = Heapy[0] + 1;
-	}else{
-	    int r = Heapy.length - 1;
-	    while(Heapy[r - 1] == null && r != (Heapy.length / 2)){
-		r--;
-	    }
-	    Heapy[r] = q;
-	    index = r;
-	    Heapy[0] = Heapy[0] + 1;
 	}
-	pushup(index);
+	Heapy[Heapy[0] + 1] = q;
+	Heapy[0] += 1;
+	pushup(Heapy[0]);
     }
 
     public void pushup(int index){
 	int k = index;
+	if(k == 1){
+	    return;
+	}
 	if(k % 2 == 0){
 	    k = index / 2;
 	}else{
@@ -103,14 +103,14 @@ public class MyHeap{
 		int temp = Heapy[index];
 		Heapy[index] = Heapy[k];
 		Heapy[k] = temp;
-		push(k);
+		pushup(k);
 	    }
 	}else{
 	    if(Heapy[k] > Heapy[index]){
 		int temp = Heapy[index];
 		Heapy[index] = Heapy[k];
 		Heapy[k] = temp;
-		push(k);
+		pushup(k);
 	    }
 	}
     }
@@ -128,10 +128,27 @@ public class MyHeap{
     }
 
     public void resize(){
-	int[] temp  = int[(Heapy.length - 1) * 2 + 1];
+	//System.out.println(Heapy[0]);
+	int[] temp  = new int[Heapy.length * 2];
 	for(int v = 0; v < Heapy.length; v++){
 	    temp[v] = Heapy[v];
 	}
 	Heapy = temp;
+	//System.out.println(Heapy[0]);
+    }
+
+    public static void main(String args[]){
+	MyHeap h = new MyHeap(true);
+	h.add(4);
+	//System.out.println(h.getsize());
+	h.add(3);
+	h.add(5);
+	h.add(10);
+	h.add(12);
+	h.add(1);
+	//System.out.println(Arrays.toString(h.getsize()));
+	System.out.println(h);
+	System.out.println(h.remove());
+	System.out.println(h);
     }
 }

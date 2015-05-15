@@ -123,8 +123,8 @@ public class MyHeap{
 	}
     }
 
-    public int[] getsize(){
-	return Heapy;
+    public int getLength(){
+	return Heapy[0];
     }
 
     public void resize(){
@@ -146,7 +146,7 @@ public class MyHeap{
 	h.add(10);
 	h.add(12);
 	h.add(1);
-	System.out.println(Arrays.toString(h.getsize()));
+	//System.out.println(Arrays.toString(h.getsize()));
 	System.out.println(h);
 	System.out.println(h.remove());
 	System.out.println(h);
