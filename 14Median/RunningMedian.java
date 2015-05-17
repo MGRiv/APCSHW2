@@ -30,6 +30,10 @@ public class RunningMedian{
 	    }
 	}
     }
+
+    public String toString(){
+	return "Smaller Numbers: \n" + min.toString() + "\n" + "Larger Numbers: \n" + max.toString();
+    }
 	
     public double getMedian(){
 	if(min.getlength == 0 && max.getlength == 0){
